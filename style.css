@@ -1,0 +1,190 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  /* outline: 2px solid var(--color-0); */
+}
+
+:root {
+  --color-bg: #020314;
+  --color-text: #e0e0e1;
+
+  --color-0-very-dark: #9c312c;
+  --color-0-dark: #b53933;
+  --color-0: #e94a42;
+  --color-0-light: #ff5d48;
+  --color-0-very-light: #ff6948;
+  --color-0-very-light: #ff6948;
+  --color-0-shadow: rgba(233, 74, 66, 0.4);
+  
+  --color-1-very-dark: #2f5d30;
+  --color-1-dark: #3c763e;
+  --color-1: #56aa59;
+  --color-1-light: #69d06d;
+  --color-1-very-light: #7cf681;
+  --color-1-shadow: rgba(86, 170, 89, 0.4);
+
+  --color-2-very-dark: #39315c;
+  --color-2-dark: #606079;
+  --color-2: #8676a5;
+  --color-2-light: #b4acc9;
+  --color-2-very-light: #f8f8f8;
+  --color-2-shadow: rgba(97, 99, 172, 0.4);
+
+  --color-answer: #7cf681;
+  --color-explanation: #fdf597;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  width:100vw;
+  height:100vh;
+  color-scheme: dark;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 32px;
+}
+
+main {
+  max-width:480px;
+  width:100%;
+  height:600px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap:32px;
+}
+
+img {
+  min-width:180px;
+  max-width: 100%;
+  max-height:460px;
+  align-self: center;
+}
+
+.question_amount_container {
+  position: absolute;
+  top:16px;
+  width: 100%;
+  text-align: center;
+  line-height: 150%;
+  color: #555ac2;
+}
+.question_amount_container > #reset {
+  font-size: 0.75em;
+  background-color: transparent;
+  padding: 4px 16px;
+  border-radius: 100vmin;
+  border: none;
+  color: #555ac2;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-decoration: underline;
+}
+.question_amount_container > #reset:hover {
+  background-color: rgba(85, 90, 194, 0.2);
+}
+.question_amount_container > #reset:active {
+  transform: scale(0.95);
+  transition: all 0s, box-shadow 0.05s;
+}
+
+.answer_container {
+  width:100%;
+  min-height:180px;
+  color: var(--color-answer);
+  opacity: 0;
+}
+.answer_container > .explanation {
+  color: var(--color-explanation);
+  opacity: 0;
+}
+
+.buttons_container {
+  width:100%;
+  position:absolute;
+  bottom:0;
+  margin:32px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  gap:32px;
+}
+
+.buttons_container > button {
+  font-size: 1.25em;
+  background-color: transparent;
+  padding: 8px 32px;
+  border-radius: 100vmin;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+} 
+
+.buttons_container > button > span {
+  background-image: linear-gradient(90deg, currentcolor, currentcolor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+
+  transition: background-size 0.2s ease-out;
+}
+.buttons_container > button:hover > span {
+  background-size: 50% 1px;
+}
+
+.buttons_container > button:active {
+  transform: scale(0.95);
+  transition: all 0s, box-shadow 0.05s;
+}
+
+button.good {
+  border: 3px solid var(--color-1);
+  color: var(--color-1-light);
+  background-color:var(--color-1-shadow);
+}
+button.good:hover {
+  background-color: var(--color-1-very-dark);
+
+}
+button.good:active {
+  color: var(--color-1);
+  border-color: var(--color-1-dark);
+  box-shadow: 8px 8px 32px var(--color-1-shadow);
+}
+
+button.bad {
+  border: 3px solid var(--color-0);
+  color: var(--color-0-light);
+  background-color:var(--color-0-shadow);
+}
+button.bad:hover {
+  background-color: var(--color-0-very-dark);
+}
+button.bad:active {
+  color: var(--color-0);
+  border-color: var(--color-0-dark);
+  box-shadow: 8px 8px 32px var(--color-0-shadow);
+}
+
+button.grey {
+  border: 3px solid var(--color-2);
+  color: var(--color-2-light);
+  background-color:var(--color-2-shadow);
+}
+button.grey:hover {
+  background-color: var(--color-2-very-dark);
+}
+button.grey:active {
+  color: var(--color-2);
+  border-color: var(--color-2-dark);
+  box-shadow: 8px 8px 32px var(--color-2-shadow);
+}
