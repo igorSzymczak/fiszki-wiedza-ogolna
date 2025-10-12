@@ -113,7 +113,9 @@ function resetFlashcardPool() {
   usedIndices = [];
   recentScores = Array(filteredFlashcards.length).fill(null);
   currentCardIndex = getRandomCard();
-  newPoolStarted = false; // <-- naprawa: wyłącz flagę resetu puli po ręcznym resecie
+  newPoolStarted = false;
+  wrongFlashcardIds = [];
+  wrongMode = false; // zawsze wyłącz tryb powtórki przy resecie
   saveStateToCookies();
   showCard(currentCardIndex);
   scoreElement.innerHTML = `Wynik: 0 z ${filteredFlashcards.length}`;
@@ -259,7 +261,8 @@ function loadStateFromCookies() {
   const wrongModeCookie = getCookie('wrongMode');
   loadSelectedTagsFromCookies();
   filterFlashcardsByTags();
-  if (wrongModeCookie === '1' && wrongIds) {
+  // Tryb powtórki wyłączany jeśli zmieniono tagi
+  if (wrongModeCookie === '1' && wrongIds && wrongFlashcardIds.length > 0) {
     try {
       wrongFlashcardIds = JSON.parse(wrongIds);
       filteredFlashcards = filteredFlashcards.filter(card => wrongFlashcardIds.includes(card.id));
@@ -374,11 +377,16 @@ resetButton.addEventListener("click", () => {
   usedIndices = [];
   recentScores = Array(filteredFlashcards.length).fill(null);
   currentCardIndex = getRandomCard();
+  newPoolStarted = false;
+  wrongFlashcardIds = [];
+  wrongMode = false;
   saveStateToCookies();
   showCard(currentCardIndex);
   scoreElement.innerHTML = `Wynik: 0 z ${filteredFlashcards.length}`;
   answerContainer.style.opacity = 0;
   explanationContainer.style.opacity = 0;
+  // Przywróć normalny wygląd pytania
+  questionElement.innerHTML = `${filteredFlashcards[currentCardIndex].id}. ${filteredFlashcards[currentCardIndex].question}`;
 });
 
 // Wyświetl pierwszą fiszkę
