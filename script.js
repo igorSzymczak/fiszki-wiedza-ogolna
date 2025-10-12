@@ -1,6 +1,93 @@
 // Lista fiszek
 import { flashcards } from './flashcards.js'
-document.getElementById("question_amount").innerHTML = flashcards.length;
+import { tags } from './tags.js'
+
+// Tag filtering state
+let selectedTags = [];
+let filteredFlashcards = flashcards;
+
+// Wczytaj wybrane tagi z cookies
+function loadSelectedTagsFromCookies() {
+  const tagsCookie = getCookie('selectedTags');
+  if (tagsCookie) {
+    try {
+      selectedTags = JSON.parse(tagsCookie);
+    } catch (e) {
+      selectedTags = [];
+    }
+  } else {
+    selectedTags = tags.map(t => t.code); // domyślnie wszystkie
+  }
+}
+
+function saveSelectedTagsToCookies() {
+  setCookie('selectedTags', JSON.stringify(selectedTags));
+}
+
+// Filtrowanie fiszek po tagach
+function filterFlashcardsByTags() {
+  filteredFlashcards = flashcards.filter(card =>
+    card.tags && card.tags.some(tag => selectedTags.includes(tag))
+  );
+}
+
+// Generowanie formularza tagów
+function renderTagForm() {
+  const tagForm = document.getElementById('tag-form');
+  tagForm.innerHTML = '<h3>Wybierz działy:</h3>' +
+    '<div id="tag-warning" style="color:var(--color-0);margin-bottom:8px;font-size:0.95em;display:none">Musisz zaznaczyć przynajmniej jeden dział!</div>';
+  tags.forEach(tag => {
+    const checked = selectedTags.includes(tag.code) ? 'checked' : '';
+    tagForm.innerHTML += `<label><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
+  });
+}
+
+// Obsługa zmiany wyboru tagów
+function setupTagFormEvents() {
+  const tagForm = document.getElementById('tag-form');
+  tagForm.addEventListener('change', (e) => {
+    const checkboxes = tagForm.querySelectorAll('input[type="checkbox"]');
+    const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    const warning = document.getElementById('tag-warning');
+    if (checkedTags.length === 0) {
+      warning.style.display = 'block';
+      // Przywróć zaznaczenie poprzednich tagów
+      checkboxes.forEach(cb => {
+        if (selectedTags.includes(cb.value)) cb.checked = true;
+      });
+      return;
+    } else {
+      warning.style.display = 'none';
+    }
+    selectedTags = checkedTags;
+    saveSelectedTagsToCookies();
+    filterFlashcardsByTags();
+    resetFlashcardPool();
+    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
+    updateRemainingFlashcards();
+  });
+}
+
+// Panel tagów - wysuwanie
+function setupTagPanelToggle() {
+  const panel = document.getElementById('tag-panel');
+  const toggle = document.getElementById('tag-panel-toggle');
+  toggle.addEventListener('click', () => {
+    panel.classList.toggle('open');
+  });
+}
+
+// Reset puli fiszek po zmianie tagów
+function resetFlashcardPool() {
+  usedIndices = [];
+  recentScores = Array(filteredFlashcards.length).fill(null);
+  currentCardIndex = getRandomCard();
+  saveStateToCookies();
+  showCard(currentCardIndex);
+  scoreElement.innerHTML = `Wynik: 0 z ${filteredFlashcards.length}`;
+  answerContainer.style.opacity = 0;
+  explanationContainer.style.opacity = 0;
+}
 
 // Elementy strony
 const questionElement = document.getElementById("question");
@@ -18,7 +105,7 @@ const remainingFlashcardsElement = document.getElementById("remaining_flashcards
 // Zmienna do śledzenia stanu
 let currentCardIndex = null;
 let usedIndices = [];
-let recentScores = Array(flashcards.length).fill(null); // null = nieodpowiedziane, 1 = dobrze, 0 = źle
+let recentScores = [];
 let newPoolStarted = false; // flaga wykrycia nowej puli
 
 // Funkcje do obsługi cookies
@@ -52,14 +139,14 @@ function updateScore(isCorrect) {
 
 // Funkcja losująca nową fiszkę
 function getRandomCard() {
-  if (usedIndices.length === flashcards.length) {
+  if (usedIndices.length === filteredFlashcards.length) {
     usedIndices = [];
     newPoolStarted = true; // nowa pula się zaczyna
   }
 
   let randomIndex;
   do {
-    randomIndex = Math.floor(Math.random() * flashcards.length);
+    randomIndex = Math.floor(Math.random() * filteredFlashcards.length);
   } while (usedIndices.includes(randomIndex));
 
   usedIndices.push(randomIndex);
@@ -70,7 +157,7 @@ function getRandomCard() {
 
 // Funkcja aktualizująca ilość pozostałych fiszek
 function updateRemainingFlashcards() {
-  const remaining = flashcards.length - usedIndices.length;
+  const remaining = filteredFlashcards.length - usedIndices.length;
   remainingFlashcardsElement.textContent = remaining;
 }
 // Funkcja zapisująca stan do cookies
@@ -78,6 +165,7 @@ function saveStateToCookies() {
   setCookie('usedIndices', JSON.stringify(usedIndices));
   setCookie('currentCardIndex', currentCardIndex);
   setCookie('recentScores', JSON.stringify(recentScores));
+  setCookie('selectedTags', JSON.stringify(selectedTags));
 }
 
 // Funkcja odczytująca stan z cookies
@@ -85,6 +173,8 @@ function loadStateFromCookies() {
   const used = getCookie('usedIndices');
   const idx = getCookie('currentCardIndex');
   const scores = getCookie('recentScores');
+  loadSelectedTagsFromCookies();
+  filterFlashcardsByTags();
   if (used) {
     try {
       usedIndices = JSON.parse(used);
@@ -98,16 +188,15 @@ function loadStateFromCookies() {
   if (scores) {
     try {
       const parsedScores = JSON.parse(scores);
-      // Dopasuj długość do liczby fiszek
-      recentScores = Array(flashcards.length).fill(null);
-      for (let i = 0; i < parsedScores.length && i < flashcards.length; i++) {
+      recentScores = Array(filteredFlashcards.length).fill(null);
+      for (let i = 0; i < parsedScores.length && i < filteredFlashcards.length; i++) {
         recentScores[i] = parsedScores[i];
       }
     } catch (e) {
-      recentScores = Array(flashcards.length).fill(null);
+      recentScores = Array(filteredFlashcards.length).fill(null);
     }
   } else {
-    recentScores = Array(flashcards.length).fill(null);
+    recentScores = Array(filteredFlashcards.length).fill(null);
   }
 }
 // Funkcja wyświetlająca fiszkę
@@ -183,11 +272,11 @@ goodButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
   // Resetuj stan
   usedIndices = [];
-  recentScores = Array(flashcards.length).fill(null);
+  recentScores = Array(filteredFlashcards.length).fill(null);
   currentCardIndex = getRandomCard();
   saveStateToCookies();
   showCard(currentCardIndex);
-  scoreElement.innerHTML = `Wynik: 0 z ${flashcards.length}`;
+  scoreElement.innerHTML = `Wynik: 0 z ${filteredFlashcards.length}`;
   answerContainer.style.opacity = 0;
   explanationContainer.style.opacity = 0;
 });
@@ -195,6 +284,10 @@ resetButton.addEventListener("click", () => {
 // Wyświetl pierwszą fiszkę
 // Przywróć stan z cookies lub rozpocznij nową sesję
 loadStateFromCookies();
+document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
+renderTagForm();
+setupTagFormEvents();
+setupTagPanelToggle();
 if (currentCardIndex !== null && !isNaN(currentCardIndex) && usedIndices.length > 0) {
   showCard(currentCardIndex);
 } else {
@@ -204,4 +297,4 @@ if (currentCardIndex !== null && !isNaN(currentCardIndex) && usedIndices.length 
 updateRemainingFlashcards();
 // Wyświetl wynik po wczytaniu strony
 const totalScore = recentScores.filter(s => s === 1).length;
-scoreElement.innerHTML = `Wynik: ${totalScore} z ${flashcards.length}`;
+scoreElement.innerHTML = `Wynik: ${totalScore} z ${filteredFlashcards.length}`;
