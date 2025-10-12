@@ -139,6 +139,8 @@ let currentCardIndex = null;
 let usedIndices = [];
 let recentScores = [];
 let newPoolStarted = false; // flaga wykrycia nowej puli
+let wrongFlashcardIds = []; // pula błędnych fiszek
+let wrongMode = false; // czy jesteśmy w trybie powtórki błędów
 
 // Funkcje do obsługi cookies
 function setCookie(name, value, days = 30) {
@@ -163,17 +165,63 @@ function updateScore(isCorrect) {
   // Zapisz wynik dla bieżącej fiszki
   recentScores[currentCardIndex] = isCorrect ? 1 : 0;
 
+  // Dodaj do puli błędów jeśli odpowiedź była zła
+  const cardId = filteredFlashcards[currentCardIndex].id;
+  if (!isCorrect && !wrongFlashcardIds.includes(cardId)) {
+    wrongFlashcardIds.push(cardId);
+  }
+  // Usuń z puli błędów jeśli odpowiedź była dobra
+  if (isCorrect && wrongFlashcardIds.includes(cardId)) {
+    wrongFlashcardIds = wrongFlashcardIds.filter(id => id !== cardId);
+  }
+
   // Oblicz wynik
   const totalScore = recentScores.filter(s => s === 1).length;
-  scoreElement.innerHTML = `Wynik: ${totalScore} z ${filteredFlashcards.length}`;
+  // Sprawdź czy skończono pulę
+  if (usedIndices.length === filteredFlashcards.length) {
+    scoreElement.innerHTML = `<span style='color:var(--color-1-very-light);font-weight:bold;'>Ostateczny wynik: ${totalScore} na ${filteredFlashcards.length}</span>`;
+  } else {
+    scoreElement.innerHTML = `Wynik: ${totalScore} z ${filteredFlashcards.length}`;
+  }
   saveStateToCookies();
 }
 
 // Funkcja losująca nową fiszkę
 function getRandomCard() {
+  // Jeśli skończyła się pula, przejdź do powtórki błędów
   if (usedIndices.length === filteredFlashcards.length) {
-    usedIndices = [];
-    newPoolStarted = true; // nowa pula się zaczyna
+    if (wrongMode) {
+      // Tryb powtórki błędów: jeśli są jeszcze błędne fiszki, powtarzaj je w nieskończoność
+      if (wrongFlashcardIds.length > 0) {
+        filteredFlashcards = filteredFlashcards.filter(card => wrongFlashcardIds.includes(card.id));
+        usedIndices = [];
+        recentScores = Array(filteredFlashcards.length).fill(null);
+        newPoolStarted = true;
+      } else {
+        // Wszystko poprawnie, wróć do normalnej puli
+        filterFlashcardsByTags();
+        usedIndices = [];
+        recentScores = Array(filteredFlashcards.length).fill(null);
+        wrongMode = false;
+        wrongFlashcardIds = [];
+        newPoolStarted = true;
+      }
+    } else if (wrongFlashcardIds.length > 0) {
+      // Przejdź do trybu powtórki błędów
+      filteredFlashcards = filteredFlashcards.filter(card => wrongFlashcardIds.includes(card.id));
+      usedIndices = [];
+      recentScores = Array(filteredFlashcards.length).fill(null);
+      wrongMode = true;
+      newPoolStarted = true;
+    } else {
+      // Reset do nowej puli (po powtórce błędów lub gdy nie ma błędów)
+      usedIndices = [];
+      wrongFlashcardIds = [];
+      wrongMode = false;
+      newPoolStarted = true;
+      filterFlashcardsByTags();
+      recentScores = Array(filteredFlashcards.length).fill(null);
+    }
   }
 
   let randomIndex;
@@ -198,6 +246,8 @@ function saveStateToCookies() {
   setCookie('currentCardIndex', currentCardIndex);
   setCookie('recentScores', JSON.stringify(recentScores));
   setCookie('selectedTags', JSON.stringify(selectedTags));
+  setCookie('wrongFlashcardIds', JSON.stringify(wrongFlashcardIds));
+  setCookie('wrongMode', wrongMode ? '1' : '0');
 }
 
 // Funkcja odczytująca stan z cookies
@@ -205,8 +255,23 @@ function loadStateFromCookies() {
   const used = getCookie('usedIndices');
   const idx = getCookie('currentCardIndex');
   const scores = getCookie('recentScores');
+  const wrongIds = getCookie('wrongFlashcardIds');
+  const wrongModeCookie = getCookie('wrongMode');
   loadSelectedTagsFromCookies();
   filterFlashcardsByTags();
+  if (wrongModeCookie === '1' && wrongIds) {
+    try {
+      wrongFlashcardIds = JSON.parse(wrongIds);
+      filteredFlashcards = filteredFlashcards.filter(card => wrongFlashcardIds.includes(card.id));
+      wrongMode = true;
+    } catch (e) {
+      wrongFlashcardIds = [];
+      wrongMode = false;
+    }
+  } else {
+    wrongFlashcardIds = [];
+    wrongMode = false;
+  }
   if (used) {
     try {
       usedIndices = JSON.parse(used);
@@ -234,9 +299,12 @@ function loadStateFromCookies() {
 // Funkcja wyświetlająca fiszkę
 function showCard(index) {
   const card = filteredFlashcards[index];
-
-  // Ustaw pytanie z numerem i odpowiedzi
-  questionElement.innerHTML = `${card.id}. ${card.question}`;
+  // Dodaj informację o powtórce
+  if (wrongMode) {
+    questionElement.innerHTML = `<span style='color:var(--color-0-very-light);font-weight:bold;'>[Powtórka]</span> ${card.id}. ${card.question}`;
+  } else {
+    questionElement.innerHTML = `${card.id}. ${card.question}`;
+  }
   answerElement.innerHTML = ""; // Ukryj odpowiedź
   explanationElement.innerHTML = ""; // Ukryj wyjaśnienie
 
