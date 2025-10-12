@@ -34,11 +34,13 @@ function filterFlashcardsByTags() {
 // Generowanie formularza tagów
 function renderTagForm() {
   const tagForm = document.getElementById('tag-form');
-  tagForm.innerHTML = '<h3>Wybierz działy:</h3>' +
-    '<div id="tag-warning" style="color:var(--color-0);margin-bottom:8px;font-size:0.95em;display:none">Musisz zaznaczyć przynajmniej jeden dział!</div>';
+  tagForm.innerHTML = '<h3>Wybierz zagadnienia:</h3>' +
+    '<div id="tag-warning" style="color:var(--color-0);margin-bottom:8px;font-size:0.95em;display:none">Musisz zaznaczyć przynajmniej jedno zagadnienie!</div>';
+  const dzialCodes = ["dz1", "dz2", "dz3"];
   tags.forEach(tag => {
     const checked = selectedTags.includes(tag.code) ? 'checked' : '';
-    tagForm.innerHTML += `<label><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
+    const dzialClass = dzialCodes.includes(tag.code) ? 'dzial' : '';
+    tagForm.innerHTML += `<label class="${dzialClass}"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
   });
 }
 
@@ -47,6 +49,35 @@ function setupTagFormEvents() {
   const tagForm = document.getElementById('tag-form');
   tagForm.addEventListener('change', (e) => {
     const checkboxes = tagForm.querySelectorAll('input[type="checkbox"]');
+    const dzialCodes = ["dz1", "dz2", "dz3"];
+    const tagList = tags.map(t => t.code);
+    const changed = e.target;
+    // Sprawdź czy zmieniono dział
+    if (dzialCodes.includes(changed.value)) {
+      // Zaznaczenie działu: zaznacz wszystkie tagi poniżej aż do następnego działu
+      let startIdx = tagList.indexOf(changed.value);
+      let endIdx = tagList.length;
+      for (let i = startIdx + 1; i < tagList.length; i++) {
+        if (dzialCodes.includes(tagList[i])) {
+          endIdx = i;
+          break;
+        }
+      }
+      for (let i = startIdx; i < endIdx; i++) {
+        checkboxes[i].checked = changed.checked;
+      }
+      // Odznaczenie działu: jeśli odznaczenie spowoduje brak zaznaczonych tagów, zostaw pierwszy tag pod działem
+      if (!changed.checked) {
+        const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+        if (checkedTags.length === 0) {
+          // Zostaw pierwszy tag pod działem
+          if (startIdx + 1 < endIdx) {
+            checkboxes[startIdx + 1].checked = true;
+          }
+        }
+      }
+    }
+    // Aktualizuj selectedTags
     const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
     const warning = document.getElementById('tag-warning');
     if (checkedTags.length === 0) {
@@ -82,6 +113,7 @@ function resetFlashcardPool() {
   usedIndices = [];
   recentScores = Array(filteredFlashcards.length).fill(null);
   currentCardIndex = getRandomCard();
+  newPoolStarted = false; // <-- naprawa: wyłącz flagę resetu puli po ręcznym resecie
   saveStateToCookies();
   showCard(currentCardIndex);
   scoreElement.innerHTML = `Wynik: 0 z ${filteredFlashcards.length}`;
@@ -125,7 +157,7 @@ function getCookie(name) {
 function updateScore(isCorrect) {
   // Jeśli zaczęła się nowa pula, wyzeruj wynik
   if (newPoolStarted) {
-    recentScores = Array(flashcards.length).fill(null);
+    recentScores = Array(filteredFlashcards.length).fill(null);
     newPoolStarted = false;
   }
   // Zapisz wynik dla bieżącej fiszki
@@ -133,7 +165,7 @@ function updateScore(isCorrect) {
 
   // Oblicz wynik
   const totalScore = recentScores.filter(s => s === 1).length;
-  scoreElement.innerHTML = `Wynik: ${totalScore} z ${flashcards.length}`;
+  scoreElement.innerHTML = `Wynik: ${totalScore} z ${filteredFlashcards.length}`;
   saveStateToCookies();
 }
 
@@ -201,7 +233,7 @@ function loadStateFromCookies() {
 }
 // Funkcja wyświetlająca fiszkę
 function showCard(index) {
-  const card = flashcards[index];
+  const card = filteredFlashcards[index];
 
   // Ustaw pytanie z numerem i odpowiedzi
   questionElement.innerHTML = `${card.id}. ${card.question}`;
@@ -227,7 +259,7 @@ function showCard(index) {
 
 // Funkcja odkrywająca odpowiedź
 function revealCard() {
-  const card = flashcards[currentCardIndex];
+  const card = filteredFlashcards[currentCardIndex];
   answerElement.innerHTML = card.answer;
   answerContainer.style.opacity = 1;
   explanationElement.innerHTML = card.explanation;

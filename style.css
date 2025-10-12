@@ -1,3 +1,8 @@
+.tag-panel label.dzial {
+  margin-left: 16px;
+  color: var(--color-0);
+  font-weight: bold;
+}
 * {
   margin:0;
   padding:0;
