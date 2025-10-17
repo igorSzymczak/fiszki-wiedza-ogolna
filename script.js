@@ -33,50 +33,59 @@ function filterFlashcardsByTags() {
 
 // Generowanie formularza tagów
 function renderTagForm() {
-  const tagForm = document.getElementById('tag-form');
-  tagForm.innerHTML = '<h3>Wybierz zagadnienia:</h3>' +
-    '<div id="tag-warning" style="color:var(--color-0);margin-bottom:8px;font-size:0.95em;display:none">Musisz zaznaczyć przynajmniej jedno zagadnienie!</div>';
-  const dzialCodes = ["dz1", "dz2", "dz3"];
+  const tagList = document.getElementById('tag-list');
+  const dzialCodes = ["dz1", "dz2", "dz3", "dz4", "zagadnieniaSem1", "zagadnieniaSem2"];
+  tagList.innerHTML = '';
   tags.forEach(tag => {
     const checked = selectedTags.includes(tag.code) ? 'checked' : '';
     const dzialClass = dzialCodes.includes(tag.code) ? 'dzial' : '';
-    tagForm.innerHTML += `<label class="${dzialClass}"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
+    tagList.innerHTML += `<label class="${dzialClass}"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
   });
 }
 
 // Obsługa zmiany wyboru tagów
 function setupTagFormEvents() {
-  const tagForm = document.getElementById('tag-form');
-  tagForm.addEventListener('change', (e) => {
-    const checkboxes = tagForm.querySelectorAll('input[type="checkbox"]');
-    const dzialCodes = ["dz1", "dz2", "dz3"];
-    const tagList = tags.map(t => t.code);
-    const changed = e.target;
-    // Sprawdź czy zmieniono dział
+  const tagList = document.getElementById('tag-list');
+  // Replace the node to remove any previously attached anonymous listeners
+  const tagListParent = tagList.parentNode;
+  const newTagList = tagList.cloneNode(true);
+  tagListParent.replaceChild(newTagList, tagList);
+  const tagListNode = newTagList;
+
+  tagListNode.addEventListener('change', (e) => {
+    // Ensure the event target is a checkbox input
+    const changed = e.target.closest && e.target.closest('input[type="checkbox"]') ? e.target.closest('input[type="checkbox"]') : (e.target.type === 'checkbox' ? e.target : null);
+    if (!changed) return;
+
+    const checkboxes = tagListNode.querySelectorAll('input[type="checkbox"]');
+    const dzialCodes = ["dz1", "dz2", "dz3", "dz4", "zagadnieniaSem1", "zagadnieniaSem2"];
+    const tagCodes = tags.map(t => t.code);
+
+    // Sprawdź czy zmieniono dział (sekcje)
     if (dzialCodes.includes(changed.value)) {
       // Zaznaczenie działu: zaznacz wszystkie tagi poniżej aż do następnego działu
-      let startIdx = tagList.indexOf(changed.value);
-      let endIdx = tagList.length;
-      for (let i = startIdx + 1; i < tagList.length; i++) {
-        if (dzialCodes.includes(tagList[i])) {
+      let startIdx = tagCodes.indexOf(changed.value);
+      let endIdx = tagCodes.length;
+      for (let i = startIdx + 1; i < tagCodes.length; i++) {
+        if (dzialCodes.includes(tagCodes[i])) {
           endIdx = i;
           break;
         }
       }
       for (let i = startIdx; i < endIdx; i++) {
-        checkboxes[i].checked = changed.checked;
+        if (checkboxes[i]) checkboxes[i].checked = changed.checked;
       }
-      // Odznaczenie działu: jeśli odznaczenie spowoduje brak zaznaczonych tagów, zostaw pierwszy tag pod działem
+      // Odznaczenie działu: jeżeli odznaczenie spowoduje brak zaznaczonych tagów, zostaw pierwszy tag pod działem
       if (!changed.checked) {
-        const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-        if (checkedTags.length === 0) {
-          // Zostaw pierwszy tag pod działem
-          if (startIdx + 1 < endIdx) {
+        const checkedTagsAfter = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+        if (checkedTagsAfter.length === 0) {
+          if (startIdx + 1 < endIdx && checkboxes[startIdx + 1]) {
             checkboxes[startIdx + 1].checked = true;
           }
         }
       }
     }
+
     // Aktualizuj selectedTags
     const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
     const warning = document.getElementById('tag-warning');
@@ -105,6 +114,35 @@ function setupTagPanelToggle() {
   const toggle = document.getElementById('tag-panel-toggle');
   toggle.addEventListener('click', () => {
     panel.classList.toggle('open');
+  });
+}
+
+// Handlers for select-all and select-sem2
+function setupTagPanelButtons() {
+  const selectAll = document.getElementById('select-all');
+  const selectSem2 = document.getElementById('select-sem2');
+  selectAll.addEventListener('click', () => {
+    selectedTags = tags.map(t => t.code);
+    saveSelectedTagsToCookies();
+    renderTagForm();
+    setupTagFormEvents();
+    filterFlashcardsByTags();
+    resetFlashcardPool();
+    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
+    updateRemainingFlashcards();
+  });
+  selectSem2.addEventListener('click', () => {
+    const sem2Code = 'zagadnieniaSem2';
+    const sem2Only = tags.filter(t => t.code === sem2Code).map(t => t.code);
+    // Ensure sem2-only plus at least one sem2 tag (itself)
+    selectedTags = sem2Only.length ? sem2Only : [sem2Code];
+    saveSelectedTagsToCookies();
+    renderTagForm();
+    setupTagFormEvents();
+    filterFlashcardsByTags();
+    resetFlashcardPool();
+    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
+    updateRemainingFlashcards();
   });
 }
 
@@ -171,10 +209,12 @@ function updateScore(isCorrect) {
   const cardId = filteredFlashcards[currentCardIndex].id;
   if (!isCorrect && !wrongFlashcardIds.includes(cardId)) {
     wrongFlashcardIds.push(cardId);
+    saveStateToCookies(); // <-- zapisuj błędne pytania natychmiast
   }
   // Usuń z puli błędów jeśli odpowiedź była dobra
   if (isCorrect && wrongFlashcardIds.includes(cardId)) {
     wrongFlashcardIds = wrongFlashcardIds.filter(id => id !== cardId);
+    saveStateToCookies(); // <-- zapisuj błędne pytania natychmiast
   }
 
   // Oblicz wynik
@@ -239,7 +279,7 @@ function getRandomCard() {
 
 // Funkcja aktualizująca ilość pozostałych fiszek
 function updateRemainingFlashcards() {
-  const remaining = filteredFlashcards.length - usedIndices.length;
+  const remaining = filteredFlashcards.length - usedIndices.length + 1;
   remainingFlashcardsElement.textContent = remaining;
 }
 // Funkcja zapisująca stan do cookies
@@ -261,18 +301,21 @@ function loadStateFromCookies() {
   const wrongModeCookie = getCookie('wrongMode');
   loadSelectedTagsFromCookies();
   filterFlashcardsByTags();
-  // Tryb powtórki wyłączany jeśli zmieniono tagi
-  if (wrongModeCookie === '1' && wrongIds && wrongFlashcardIds.length > 0) {
+  // Przywróć pulę powtórkową jeśli istnieje
+  if (wrongIds) {
     try {
       wrongFlashcardIds = JSON.parse(wrongIds);
-      filteredFlashcards = filteredFlashcards.filter(card => wrongFlashcardIds.includes(card.id));
-      wrongMode = true;
     } catch (e) {
       wrongFlashcardIds = [];
-      wrongMode = false;
     }
   } else {
     wrongFlashcardIds = [];
+  }
+  // Jeśli są błędne fiszki i nie jesteśmy po resecie/tagach, ustaw tryb powtórki
+  if (wrongFlashcardIds.length > 0 && wrongModeCookie === '1') {
+    filteredFlashcards = flashcards.filter(card => wrongFlashcardIds.includes(card.id));
+    wrongMode = true;
+  } else {
     wrongMode = false;
   }
   if (used) {
@@ -396,6 +439,7 @@ document.getElementById("question_amount").innerHTML = filteredFlashcards.length
 renderTagForm();
 setupTagFormEvents();
 setupTagPanelToggle();
+setupTagPanelButtons();
 if (currentCardIndex !== null && !isNaN(currentCardIndex) && usedIndices.length > 0) {
   showCard(currentCardIndex);
 } else {

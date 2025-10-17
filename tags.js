@@ -9,6 +9,13 @@ export const tags = [
   { code: "glowice", name: "Głowice (sondy pomiarowe)" },
   { code: "dz3", name: "Dział 3 - Odchyłki Geometryczne ISO 1101, Systemy pomiarowe z elementami SKJ" },
   { code: "podzTol", name: "Podział Tolerancji" },
+  { code: "metody", name: "Metody obliczania elementów odniesienia" },
+  { code: "dz4", name: "Fotogrametria i Tomografia" },
+  { code: "foto", name: "Fotogrametria" },
+  { code: "tom", name: "Tomografia komputerowa" },
+  { code: "zagadnieniaSem1", name: "Zagadnienia stare" },
+  { code: "zagadnieniaSem2", name: "Zagadnienia nowe" },
+  
   
 ];
 

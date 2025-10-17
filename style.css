@@ -3,6 +3,23 @@
   color: var(--color-0);
   font-weight: bold;
 }
+
+.tag-panel .tag-panel-controls {
+  display:flex;
+  gap:8px;
+  margin-bottom:8px;
+}
+.tag-panel .tag-panel-controls > button {
+  background: var(--color-2);
+  color: var(--color-2-very-light);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tag-panel .tag-panel-controls > button:hover {
+  background: var(--color-2-dark);
+}
 * {
   margin:0;
   padding:0;
