@@ -663,158 +663,158 @@ export const flashcards = [
     hasImage: false,
     tags: ["zagadnieniaSem2"]
   },
-  {
-    id: 84,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 85,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 86,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 87,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 88,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 89,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 90,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 91,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 92,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 93,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 94,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 95,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 96,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 97,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 98,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 99,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 100,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 101,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
-  {
-    id: 102,
-    question: "",
-    answer: "",
-    explanation: "",
-    hasImage: false,
-    tags: ["zagadnieniaSem2"]
-  },
+  // {
+  //   id: 84,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 85,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 86,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 87,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 88,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 89,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 90,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 91,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 92,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 93,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 94,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 95,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 96,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 97,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 98,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 99,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 100,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 101,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
+  // {
+  //   id: 102,
+  //   question: "",
+  //   answer: "",
+  //   explanation: "",
+  //   hasImage: false,
+  //   tags: ["zagadnieniaSem2"]
+  // },
   
 
 ]
