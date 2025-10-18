@@ -58,7 +58,7 @@ export const flashcards = [
   {
     id: 8,
     question: "Minimalna liczba punktów matematycznych i pomiarowych Kuli to?",
-    answer: "4 matematyczna, 5 pomiarowa",
+    answer: "4 matematyczna, 6 pomiarowa",
     explanation: "",
     hasImage: false,
     tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
