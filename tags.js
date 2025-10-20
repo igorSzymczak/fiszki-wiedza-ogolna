@@ -14,7 +14,12 @@ export const tags = [
   { code: "foto", name: "Fotogrametria" },
   { code: "tom", name: "Tomografia komputerowa" },
   { code: "zagadnieniaSem1", name: "Zagadnienia stare" },
+  { code: "s1p1", name: "1-10" },
+  { code: "s1p2", name: "11-21" },
+  { code: "s1p3", name: "22-23" },
   { code: "zagadnieniaSem2", name: "Zagadnienia nowe" },
+  { code: "s2p1", name: "1-8" },
+  { code: "s2p2", name: "9-15" },
   
   
 ];

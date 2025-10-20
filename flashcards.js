@@ -21,7 +21,7 @@ export const flashcards = [
     answer: "- punkt<br>- prosta<br>- płaszczyzna<br>- okrąg<br>- kula<br>- elipsa<br>- walec<br>- stożek",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export const flashcards = [
     answer: "1 matematyczny, 1 pomiarowy",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ export const flashcards = [
     answer: "2 matematyczna, 3 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ export const flashcards = [
     answer: "3 matematyczna, 4 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 7,
@@ -53,7 +53,7 @@ export const flashcards = [
     answer: "3 matematyczna, 4 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ export const flashcards = [
     answer: "4 matematyczna, 6 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 9,
@@ -69,7 +69,7 @@ export const flashcards = [
     answer: "5 matematyczna, 6 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 10,
@@ -77,7 +77,7 @@ export const flashcards = [
     answer: "5 matematyczna, 8 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 11,
@@ -85,7 +85,7 @@ export const flashcards = [
     answer: "6 matematyczna, 12 pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "elemBaz", "zagadnieniaSem2"]
+    tags: ["dz1", "elemBaz", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 12,
@@ -93,7 +93,7 @@ export const flashcards = [
     answer: "- 3-2-1<br>- Dopasowanie best-fit (najmniejszych kwadratów)<br>- Dopasowanie iteracyjne<br>- RPS",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 13,
@@ -101,7 +101,7 @@ export const flashcards = [
     answer: "odbiera: <br>- 3 punkty do zdefiniowania płaszczyzny (X,Y)<br>- 2 punkty do zdefiniowania osi X<br>- 1 punkt do zdefiniowania osi Z",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 14,
@@ -109,7 +109,7 @@ export const flashcards = [
     answer: "metoda najlepszego dopasowania, która minimalizuje odległość między punktami pomiarowymi a idealnym elementem geometrycznym",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 15,
@@ -117,7 +117,7 @@ export const flashcards = [
     answer: "Polega na wielokrotnym dopasowywaniu elementu geometrycznego do punktów pomiarowych, aż do uzyskania optymalnego dopasowania",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 16,
@@ -125,7 +125,7 @@ export const flashcards = [
     answer: "wykorzystuje punkty referencyjne na obiekcie do zdefiniowania układu współrzędnych",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 17,
@@ -133,7 +133,7 @@ export const flashcards = [
     answer: "Metoda 3-2-1",
     explanation: "3 dla płaszczyzny, 2 dla osi X, 1 dla osi Z",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 18,
@@ -141,7 +141,7 @@ export const flashcards = [
     answer: "Dopasowanie best-fit (najmniejszych kwadratów)",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 19,
@@ -149,7 +149,7 @@ export const flashcards = [
     answer: "Metoda RPS (Reference Point System)",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 20,
@@ -157,7 +157,7 @@ export const flashcards = [
     answer: "Dopasowanie iteracyjne",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2"]
+    tags: ["dz1", "metWyznUkl", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 21,
@@ -165,7 +165,7 @@ export const flashcards = [
     answer: "- Współrzędne maszyny pomiarowej (WMP)<br>- Współrzędne systemy redundantne<br>- Systemy stykowe i bezstykowe pomiaru mikrogeometrii i topografii powierzchni",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "techPom", "zagadnieniaSem2"]
+    tags: ["dz1", "techPom", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 22,
@@ -173,7 +173,7 @@ export const flashcards = [
     answer: "- stykowe w układzie 3D<br>- optyczne w układzie 2D<br>- multisensoryczne w ukłądzie 2D/3D",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "techPom", "zagadnieniaSem2"]
+    tags: ["dz1", "techPom", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 23,
@@ -181,7 +181,7 @@ export const flashcards = [
     answer: "- wykorzystujące światło strukturalne, fotometryczne<br>- wykorzystujące triangulację laserową<br>- układy oparte na pomiarze czasu powrotu wiązki detekcyjnej (TOF - Time Of Flight)<br>- tomografii komputerowej<br>- rezonansu magnetycznego",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "techPom", "zagadnieniaSem2"]
+    tags: ["dz1", "techPom", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 24,
@@ -189,7 +189,7 @@ export const flashcards = [
     answer: "1. Zespół nośny<br>2. Układy pomiarowe<br>3. Komputer z osprzętem<br>4. układ napędowo sterujący<br>5. Głowica - sonda pomiarowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 25,
@@ -197,7 +197,7 @@ export const flashcards = [
     answer: "- portalowa<br>- mostowa<br>- wspornikowa<br>- wysięgnikowa<br>- hybrydowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 26,
@@ -205,7 +205,7 @@ export const flashcards = [
     answer: "maszyna portalowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 27,
@@ -213,7 +213,7 @@ export const flashcards = [
     answer: "maszyna mostowa",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 28,
@@ -221,7 +221,7 @@ export const flashcards = [
     answer: "a) ruchomy portal<br>b) ruchomy stół",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 29,
@@ -229,7 +229,7 @@ export const flashcards = [
     answer: "Posiada najmniejszy błąd pomiarowy, oznaczany jako MPE.",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 30,
@@ -237,7 +237,7 @@ export const flashcards = [
     answer: "- praktycznie nieograniczony zasięg Y<br>- wielkogabarytowa<br>- niska dokładność",
     explanation: "stosowana do pomiaru samochódów, dużych formatek itp.",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 31,
@@ -245,7 +245,7 @@ export const flashcards = [
     answer: "- ręczna<br>- służy do szybkiego pomiaru, inspekcji",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 32,
@@ -253,7 +253,7 @@ export const flashcards = [
     answer: "- duży zasięg<br>- mniej dokładna niż mostowa<br>- mierzenie raczej tylko od boku<br>- zwykle stosowane jako 2 urządzenia po obu stronach",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 33,
@@ -261,7 +261,7 @@ export const flashcards = [
     answer: "- inaczej zwana ramionem pomiarowym<br>- ręczna lub półautomatyczna<br>- Największa przenośność<br>- ale najniższa dokładność",
     explanation: "",
     hasImage: false,
-    tags: ["dz1", "maszyny", "zagadnieniaSem2"]
+    tags: ["dz1", "maszyny", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 34,
@@ -341,7 +341,7 @@ export const flashcards = [
     answer: "Służy do lokalizacji punktów pomiarowych. Sygnał z przetwornika sondy jest przetwarzany na współrzędne punktu.<br>Sondy dzielimy na stykowe i bezstykowe.",
     explanation: "",
     hasImage: false,
-    tags: ["dz2", "glowice", "zagadnieniaSem2"]
+    tags: ["dz2", "glowice", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 44,
@@ -349,7 +349,7 @@ export const flashcards = [
     answer: "sztywne, przełączające, mierzące",
     explanation: "",
     hasImage: false,
-    tags: ["dz2", "glowice", "zagadnieniaSem2"]
+    tags: ["dz2", "glowice", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 45,
@@ -357,7 +357,7 @@ export const flashcards = [
     answer: "- z przetwornikiem elekstrostykowym<br>- z przetwornikiem piezoelektrycznym i elektrostykowym",
     explanation: "",
     hasImage: false,
-    tags: ["dz2", "glowice", "zagadnieniaSem2"]
+    tags: ["dz2", "glowice", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 46,
@@ -365,7 +365,7 @@ export const flashcards = [
     answer: "- z przetwornikiem indukcyjnym<br>- z przetwornikiem optoelektronicznym",
     explanation: "",
     hasImage: false,
-    tags: ["dz2", "glowice", "zagadnieniaSem2"]
+    tags: ["dz2", "glowice", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 47,
@@ -373,7 +373,7 @@ export const flashcards = [
     answer: "Zalety:<br>- brak odkształceń obiektu mierzonego<br>- szybkość pomiaru<br>- stosunkowo duży zakres pomiarowy<br>Wady:<br>- Zależność od własności rozpraszających powierzchni mierzonego obiektu<br>- mniej dokładne niż stykowe",
     explanation: "",
     hasImage: false,
-    tags: ["dz2", "glowice", "zagadnieniaSem2"]
+    tags: ["dz2", "glowice", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 48,
@@ -389,7 +389,7 @@ export const flashcards = [
     answer: "- Tolerancja kształtu<br>- Tolerancja kierunku<br>- Tolerancja położenia<br>- Tolerancja bicia",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 50,
@@ -397,7 +397,7 @@ export const flashcards = [
     answer: "Oznacza strefę tolerancji, która zawiera odstępstwa od idealnej geometrii:<br>- prostoliniowość<br>- płaskość<br>- okrągłość<br>- walcowość<br>, gdzie tolerowany element traktowany jest jako orientacja",
     explanation: "Teoretycznie tylko tolerancje kształtu linii i powierzchni wymagają dokładnych wymiarów i bazy odniesienia.",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 51,
@@ -405,7 +405,7 @@ export const flashcards = [
     answer: "Strefę tolerancji zawierającej odstępstwo od ogólnego kierunku (równoległość, prostopadłość, odchylenie), pomiędzy elementem tolerowanym a bazą odniesienia.",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 52,
@@ -413,7 +413,7 @@ export const flashcards = [
     answer: "Strefę tolerancji zawierającą odstępstwa od idealnego położenia (współśrodkowość, położenie, symetria) elementu tolerowanego względem bazy odniesienia.",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 53,
@@ -421,7 +421,7 @@ export const flashcards = [
     answer: "Strefę tolerancji zawierającą odstępstwa kształtu i położenia linii / płaszczyzny w odniesieniu do osi obrotu.",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 54,
@@ -429,7 +429,7 @@ export const flashcards = [
     answer: "- prostoliniowość<br>- płaskość<br>- okrągłość<br>- walcowość<br>- kształt wyznaczonego zarysu<br>- kształt wyznaczonej powierzchni",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 55,
@@ -437,7 +437,7 @@ export const flashcards = [
     answer: "- równoległość<br>- prostopadłość<br>- odchylenie<br>- kształt wyznaczonego zarysu<br>- kształt wyznaczonej powierzchni",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 56,
@@ -445,7 +445,7 @@ export const flashcards = [
     answer: "- pozycja<br>- współśrodkowość<br>- współosiowość<br>- symetria<br>- kształt wyznaczonego zarysu<br>- kształt wyznaczonej powierzchni",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 57,
@@ -453,7 +453,7 @@ export const flashcards = [
     answer: "- bicie wzdłużne<br>- bicie poprzeczne",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 58,
@@ -461,7 +461,7 @@ export const flashcards = [
     answer: "Wszystkie poza tolerancją kształtu",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "podzTol", "zagadnieniaSem2"]
+    tags: ["dz3", "podzTol", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 59,
@@ -469,7 +469,7 @@ export const flashcards = [
     answer: "- Linia średnia (LSS)<br>- Minimalna strefa (MZS)<br>- Okrąg średniokwadratowy (LSCI)<br>- Okrąg minimalnej strefy (MZCI)<br>- Najmniejszy okrąg opisany (MCCI)<br>- Największy okrąg wpisany (MICI)",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 60,
@@ -477,7 +477,7 @@ export const flashcards = [
     answer: "Polega na znalezieniu linii, która minimalizuje sumę kwadratów odchyłek punktów pomiarowych od tej linii.",
     explanation: "",
     hasImage: true,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 61,
@@ -485,7 +485,7 @@ export const flashcards = [
     answer: "Polega na znalezieniu dwóch równoległych linii, które obejmują wszystkie punkty pomiarowe przy minimalnej odległości między nimi.",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 62,
@@ -493,7 +493,7 @@ export const flashcards = [
     answer: "Polega na znalezieniu okręgu przechodzącego przez profil okrągłości, który minimalizuje sumę kwadratów odchyłek.",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 63,
@@ -501,7 +501,7 @@ export const flashcards = [
     answer: "Polega na znalezieniu współśrodkowych okręgów, które obejmują wszystkie punkty pomiarowe przy minimalnej różnicy promieni.",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 64,
@@ -509,7 +509,7 @@ export const flashcards = [
     answer: "Polega na znalezieniu okręgu o najmniejszym promieniu, który obejmuje wszystkie punkty pomiarowe.",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 65,
@@ -517,7 +517,7 @@ export const flashcards = [
     answer: "Polega na znalezieniu okręgu o największym promieniu, który mieści się wewnątrz wszystkich punktów pomiarowych.",
     explanation: "",
     hasImage: false,
-    tags: ["dz3", "metody", "zagadnieniaSem2"]
+    tags: ["dz3", "metody", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 66,
@@ -557,7 +557,7 @@ export const flashcards = [
     answer: "To uzyskiwanie danych o kształcie i położeniu obiektu poprzez analizę zdjęć fotograficznych wykonanych z różnych perspektyw.",
     explanation: "",
     hasImage: false,
-    tags: ["dz4", "foto", "zagadnieniaSem2"]
+    tags: ["dz4", "foto", "zagadnieniaSem2", "s2p1"]
   },
   {
     id: 71,
@@ -573,7 +573,7 @@ export const flashcards = [
     answer: "- Błędy urządzenia (luzy, optyka)<br>- Błędy odczytu (rozdzielczość optyczna)<br>- Błędy środowiskowe (temperatura, wibracje)<br>- Błędy oprogramowania (algorytmy rekonstrukcji)<br>- Błędy metody (odbijanie światła, trudne miejsca)",
     explanation: "",
     hasImage: false,
-    tags: ["dz4", "foto", "zagadnieniaSem2"]
+    tags: ["dz4", "foto", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 73,
@@ -589,7 +589,7 @@ export const flashcards = [
     answer: "- wielkość Voxela<br>- wielkość plamki",
     explanation: "",
     hasImage: false,
-    tags: ["dz4", "tom", "zagadnieniaSem2"]
+    tags: ["dz4", "tom", "zagadnieniaSem2", "s2p2"]
   },
   {
     id: 75,
@@ -645,7 +645,7 @@ export const flashcards = [
     answer: "istota polega na tym, że uzyskujemy współrzędne punktu badanego obiektu w układzie kartezjańskim XYZ.",
     explanation: "Dzięki tym punktom możemy wyznaczyć długości, kąty, promienie, kształty i odchyłki geometryczne.",
     hasImage: false,
-    tags: ["zagadnieniaSem2"]
+    tags: ["zagadnieniaSem2", "s2p1"]
   },
   {
     id: 82,
@@ -653,7 +653,7 @@ export const flashcards = [
     answer: "- geodezja i kartografia<br>- archeologia<br>- inżynieria produkcji samolotów i statkówo<br>- medycyna (modelowanie ciała ludzkiego w 3D)<br>- budownictwo",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem2"]
+    tags: ["zagadnieniaSem2", "s2p1"]
   },
   {
     id: 83,
@@ -661,7 +661,7 @@ export const flashcards = [
     answer: "Tomograf komputerowy wykorzystuje złożenie projekcji obiektu wykonanych pod różnymi kątami w celu odtworzenia jego przekrojowego obrazu (rekonstrukcji warstwowej).",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem2"]
+    tags: ["zagadnieniaSem2", "s2p2 "]
   },
   {
     id: 84,
@@ -669,7 +669,7 @@ export const flashcards = [
     answer: "W procesie pomiaru porównujemy wielkość mierzoną z wzorcem tego samego rodzaju co wynika ze wzoru C = A/B, czego wynikiem jest wartość liczbowa C.",
     explanation: "Krótko: To proces określania wartości wielkości mierzonej poprzez porównanie jej z wartością wzorca.",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 85,
@@ -677,7 +677,7 @@ export const flashcards = [
     answer: "Tak",
     explanation: "Pomiar polega na porównaniu wielkości mierzonej z wzorcem tego samego rodzaju.",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 86,
@@ -685,7 +685,7 @@ export const flashcards = [
     answer: "Nauka o pomiarach, obejmująca metody, narzędzia oraz analizę niepewności pomiarowych.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 87,
@@ -693,7 +693,7 @@ export const flashcards = [
     answer: "fizyczne ujęcie danej jednostki miary",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 88,
@@ -701,7 +701,7 @@ export const flashcards = [
     answer: "Musi: <br>- być stabilny w czasie<br>- być łatwy do odtworzenia<br>- być łatwy do stosowania<br>- mieć największą możliwą dokładność",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 89,
@@ -709,7 +709,7 @@ export const flashcards = [
     answer: "Wymiary wyrobów muszą być wyrażone w jednostkach miar zgodnych z układem SI, a pomiary muszą być zgodne z zasadami metrologii.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 90,
@@ -717,7 +717,7 @@ export const flashcards = [
     answer: "1) Wzorce międzynarodowe<br>2) Wzorce krajowe<br>3) Wzorce odniesienia<br>4) Wzorce robocze",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 91,
@@ -725,7 +725,7 @@ export const flashcards = [
     answer: "Wzorzec powszechnie uważany za najbardziej dokładny i stabilny, bez odniesienia do inych wzorców",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 92,
@@ -733,7 +733,7 @@ export const flashcards = [
     answer: "Wzorzec o najwyższej jakości w danym miejscu, stanowi odniesienie dla wzorców roboczych",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 93,
@@ -741,7 +741,7 @@ export const flashcards = [
     answer: "używany do wzorcowania lub sprawdzania wzorców miar lub przyrządów pomiarowych.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 94,
@@ -749,7 +749,7 @@ export const flashcards = [
     answer: "- wg rodzaju wielkości mierzonej<br>- wg zasady działania<br>- wg dokładności pomiaru",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 95,
@@ -757,7 +757,7 @@ export const flashcards = [
     answer: "a) wzorce miar - odtwarzają wartość wielkości<br>b) przyrządy pomiarowe - przetwarzają wielkość mierzoną<br>c) przybory - elementy niezbędne do wykonania pomiaru ale nie oddziałujące na wynik pomiaru",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 96,
@@ -765,7 +765,7 @@ export const flashcards = [
     answer: "- podstawowe<br>- odniesienia<br>- robocze <br>- specjalne",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p1"]
   },
   {
     id: 97,
@@ -773,7 +773,7 @@ export const flashcards = [
     answer: "To stalowa lub ceramiczna płytka o bardzo dokładnie określonych wymiarach i klasie dokładności.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 98,
@@ -781,7 +781,7 @@ export const flashcards = [
     answer: "Dwie - górna i dolna",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 99,
@@ -789,7 +789,7 @@ export const flashcards = [
     answer: "Wsuwając je jedna w drugą, tak aby powierzchnie pomiarowe stykały się ze sobą. Na zewnątrz powinny znajdować się płytki o największych wymiarach.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 100,
@@ -797,7 +797,7 @@ export const flashcards = [
     answer: "Wzorce nietypowe, stosowane do specyficznych pomiarów, np.<br>- śruba mikrometryczna<br>- wzorce zarysów gwintowych<br>- wzorce łuków kołowych",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 101,
@@ -805,7 +805,7 @@ export const flashcards = [
     answer: "Przyrząd pomiarowy w którym wzorcem długości jest wzorzec kreskowy, a środkiem zwększającym dokładność odczytu, noniusz. <br>Obecnie są już suwmiarki cyfrowe - bez noniusza.<br>Pomiar do 0.05mm",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 102,
@@ -813,7 +813,7 @@ export const flashcards = [
     answer: "Przyrząd w którym wzorcem długości jest śruba mikrometryczna o znanym skoku gwintu, a środkiem zwiększającym dokładność odczytu jest bębenek z podziałką i skala bębna (mikropodziałka). <br>Pomiar do 0.01mm",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 103,
@@ -821,7 +821,7 @@ export const flashcards = [
     answer: "- cyfrowy (niezbędny statyw)<br>- analogowy (zegarowy)<br>- uchylny zegarowy i cyfrowy",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 104,
@@ -829,7 +829,7 @@ export const flashcards = [
     answer: "1. Metoda bezpośrednia<br>2. Metoda bezpośredniego porównania<br>3. Metoda pośrednia<br>4. Metoda różnicowa wychyleniowa<br>5. Metoda koincydencyjna<br>6. Metoda podstawowa",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 105,
@@ -837,7 +837,7 @@ export const flashcards = [
     answer: "Odczyt wartości wielkości mierzonej bezpośrednio z przyrządu pomiarowego.",
     explanation: "(np. suwmiarka, mikrometr)",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 106,
@@ -845,7 +845,7 @@ export const flashcards = [
     answer: "Porównanie ze wzorcem lub przyrządem wzorcowym.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 107,
@@ -853,7 +853,7 @@ export const flashcards = [
     answer: "Obliczenie wartości wielkości mierzonej na podstawie innych zmierzonych wielkości.",
     explanation: "np. pomiar prędkości na podstawie drogi i czasu",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 108,
@@ -861,7 +861,7 @@ export const flashcards = [
     answer: "Pomiar małej różnicy między wartością wielkości mierzalnej a znaną wartością tej samej wielkości za pomocą czujnika",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 109,
@@ -869,7 +869,7 @@ export const flashcards = [
     answer: "Niezgodność wyniku pomiaru z wartością prawdziwą wielkości mierzonej.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 110,
@@ -877,7 +877,7 @@ export const flashcards = [
     answer: "Bezwzględny: δ = y - y<sub>r</sub> - ilościowa różnica między wynikiem pomiaru y a watością prawdziwą wielkości mierzonej y<sub>r</sub><br>Względny: ε = (δ / y<sub>r</sub>) * 100% - względny stosunek wartości prawdziwej do mierzonej",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 111,
@@ -885,7 +885,7 @@ export const flashcards = [
     answer: "Systematyczne, przypadkowe, nadmierne (grube)",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 112,
@@ -893,7 +893,7 @@ export const flashcards = [
     answer: "Ich przyczyny można zidentyfikować i skorygować. Powtarzają się w tych samych warunkach powtarzalności:<br>- Ta sama metoda<br>- Ten sam przyrząd<br>- Ten sam operator<br>- Te same warunki środowiskowe<br>- Krótkie odstępy czasu",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 113,
@@ -901,7 +901,7 @@ export const flashcards = [
     answer: "Wynikają z nieprzewidywalnych i losowych czynników wpływających na pomiar. Nie można ich całkowicie wyeliminować, ale można zminimalizować.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 114,
@@ -909,7 +909,7 @@ export const flashcards = [
     answer: "Wynikają z oczywistych pomyłek operatora lub awarii przyrządu. Wynik obarczony tym błędem należy odrzucić.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 115,
@@ -917,7 +917,7 @@ export const flashcards = [
     answer: "- nieścisłość def. wielkości mierzonej<br>- niedokładność wzorca<br>- niedokładność przyrządu pomiarowego<br>- błąd obserwacji<br>- wpływ środowiska<br>- błąd metody<br>- błąd obliczeń",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 116,
@@ -925,7 +925,7 @@ export const flashcards = [
     answer: "Parametr związany z wynikiem pomiaru, charakteryzujący rozrzut wartości, które mogą być przypisane wielkości mierzonej.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 117,
@@ -933,7 +933,7 @@ export const flashcards = [
     answer: "A - oparta na statystycznej analizie serii pomiarów<br>B - oparta na analizie innych informacji niż seria pomiarów (np. specyfikacje producenta, dane kalibracyjne)",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 118,
@@ -941,7 +941,7 @@ export const flashcards = [
     answer: "To dopuszczalny zakres zmienności wymiaru. To różnica między wymiarem maksymalnym (ES) a minimalnym (ei)",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 119,
@@ -949,7 +949,7 @@ export const flashcards = [
     answer: "Nie",
     explanation: "Tolerancja jest zawsze wartością dodatnią, ponieważ reprezentuje zakres dopuszczalnych odchyleń od wymiaru nominalnego.",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 120,
@@ -957,7 +957,7 @@ export const flashcards = [
     answer: "To jedna z odchyłek granicznych (ES lub ei) wykorzystywana do określenia pola tolerancji względem linii zerowej.",
     explanation: "To ta odchyłka której wartość jest bliżej linii zerowej.",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p2"]
   },
   {
     id: 121,
@@ -965,7 +965,7 @@ export const flashcards = [
     answer: "To wzajemna relacja między dwoma częściami o takim samym wymiarze nominalnym, ale różnych odchyłkach",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 122,
@@ -973,7 +973,7 @@ export const flashcards = [
     answer: "a) Luźne<br>b) Ciasne<br>c) Mieszane (zmienne w różnych warunkach)",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 123,
@@ -981,7 +981,7 @@ export const flashcards = [
     answer: "fi 30 - wymiar nominalny (mm)<br>H7 - otwór rodzaju H, dokładności 7<br>p6 - wałek rodzaju p, dokłądności 6",
     explanation: "",
     hasImage: true,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 124,
@@ -989,7 +989,7 @@ export const flashcards = [
     answer: "Zasada tworzenia pasowań wg. której rózne luzy i wciski wynikają z połączenia otworu podstawowego z wałkami o różnych polach tolerancji.",
     explanation: "Zmieniamy wałek",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 125,
@@ -997,7 +997,7 @@ export const flashcards = [
     answer: "Zasada tworzenia pasowań wg. której różne luzy i wciski wynikają z połączenia wałka podstawowego z otworami o różnych polach tolerancji.",
     explanation: "Zmieniamy otwór",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 126,
@@ -1005,7 +1005,7 @@ export const flashcards = [
     answer: "To urządzenie przetwarzające wejściową wielkość pomiarową na wyjściową, stosując ustandaryzowane zasady, metody i prawa, z określoną niepewnością pomiaru",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 127,
@@ -1013,7 +1013,7 @@ export const flashcards = [
     answer: "To taki pomiar, który nie zmienia się w czasie.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 128,
@@ -1021,7 +1021,7 @@ export const flashcards = [
     answer: "Opisuje zależność między wejściem a wyjściem przetwornika",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 129,
@@ -1029,7 +1029,7 @@ export const flashcards = [
     answer: "- czułość statyczna (wzmocnienie)<br>- histereza<br>- zakres pomiarowy<br>- rozdzielczość urządzenia",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 130,
@@ -1037,7 +1037,7 @@ export const flashcards = [
     answer: "To granica stosunku przyrostu wielkości wejściowej do wywołującego tę zmianę przyrostu wielkości wyjściowej",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 131,
@@ -1045,7 +1045,7 @@ export const flashcards = [
     answer: "Histereza jest wtedy gdy mamy różny sygnał wyjściowy przy tym samym wejściu, ale w zależności od malejącego bądź rosnącego sygnału.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 132,
@@ -1053,7 +1053,7 @@ export const flashcards = [
     answer: "To zakres sygnału wejściowego, który przetwornik może zmierzyć bezpiecznie.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 133,
@@ -1061,7 +1061,7 @@ export const flashcards = [
     answer: "To najmniejsza różnica wskazania urządzenia",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 134,
@@ -1069,7 +1069,7 @@ export const flashcards = [
     answer: "To jego 'wiarygodność', czyli to, czy przetwornik zmienia sygnał wyjściowy proporcjonalnie do wejściowego.",
     explanation: "Błąd nieliniowości występuje w przykładowej sytuacji:<br> 1V -> 100 stopni<br> 0.5V -> 55 stopni",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 135,
@@ -1077,7 +1077,7 @@ export const flashcards = [
     answer: "a) Metody linearyzacji<br>b) Metoda najmniejszych kwadratów",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 136,
@@ -1085,7 +1085,7 @@ export const flashcards = [
     answer: "- naciągniętej linii (na oko)<br>- średnich<br>- dwóch punktów wg Hellwiga<br>- kolejnych przybliżeń",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   },
   {
     id: 137,
@@ -1093,7 +1093,7 @@ export const flashcards = [
     answer: "Polega na takim doborze funkcji liniowej, aby suma różnic kwadratów kwadratów odchyleń od tej linii była najmniejsza. Prostą tą nazywamy prostą najmniejszych kwadratów.",
     explanation: "",
     hasImage: false,
-    tags: ["zagadnieniaSem1"]
+    tags: ["zagadnieniaSem1", "s1p3"]
   } 
 ]
 
