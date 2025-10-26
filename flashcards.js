@@ -1094,7 +1094,7 @@ export const flashcards = [
     explanation: "",
     hasImage: false,
     tags: ["zagadnieniaSem1", "s1p3"]
-  } 
+  },
 ]
 
   // {
@@ -1105,3 +1105,12 @@ export const flashcards = [
   //   hasImage: false,
   //   tags: ["dz1"]
   // },
+
+// {
+  // id: X,
+  // question: "Pytanie odnośnie prehistorii ludów",
+  // answer: "Odpowiedź odnosząca się do prehistorii ludów",
+  // explanation: "entualne wyjaśnienie lub dodatkowe informacje",
+  // hasImage: false,
+  // tags: ["prehistoria_ludy"]
+// }

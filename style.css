@@ -22,7 +22,7 @@
 }
 #tag-list {
   overflow-y: auto;
-  max-height: calc(100vh - 110px);
+  max-height: calc(100vh - 150px);
   padding-right: 8px;
 }
 #tag-list::-webkit-scrollbar {
