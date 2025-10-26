@@ -35,12 +35,36 @@ function filterFlashcardsByTags() {
 function renderTagForm() {
   const tagList = document.getElementById('tag-list');
   tagList.innerHTML = '';
-  tags.forEach(tag => {
+  // Prepare helper maps for hierarchy and codes
+  const tagCodes = tags.map(t => t.code);
+  const tagIndexMap = Object.fromEntries(tags.map(t => [t.code, (typeof t.index === 'number') ? t.index : 2]));
+
+  // Helper: collect descendant codes for tag at position `startIdx`
+  function collectDescendants(startIdx) {
+    const result = [];
+    const baseIndex = tagIndexMap[tagCodes[startIdx]] || 2;
+    for (let i = startIdx + 1; i < tagCodes.length; i++) {
+      const idx = tagIndexMap[tagCodes[i]] || 2;
+      if (idx <= baseIndex) break; // stop when sibling or ancestor
+      result.push(tagCodes[i]);
+    }
+    return result;
+  }
+
+  tags.forEach((tag, i) => {
     const checked = selectedTags.includes(tag.code) ? 'checked' : '';
     const dzialClass = (tag.index && tag.index === 1) ? 'dzial' : '';
     // Indent according to numeric index: higher index -> more right offset
     const indent = ((tag.index && tag.index > 0) ? (tag.index - 1) : 0) * 16;
-    tagList.innerHTML += `<label class="${dzialClass}" style="margin-left:${indent}px"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
+    // Inline color for index 2 tags (keeps previous behavior)
+    const colorStyle = (tag.index === 2) ? 'color:var(--color-1);' : '';
+
+    // Compute count = cards having this tag OR any of its descendant tags
+    const descendants = collectDescendants(i);
+    const codesToCount = [tag.code, ...descendants];
+    const count = flashcards.filter(card => card.tags && card.tags.some(tcode => codesToCount.includes(tcode))).length;
+
+    tagList.innerHTML += `<label class="${dzialClass}" style="margin-left:${indent}px; ${colorStyle}"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name} <span class="tag-count">(${count})</span></label>`;
   });
 }
 
@@ -427,21 +451,35 @@ function loadStateFromCookies() {
     recentScores = Array(filteredFlashcards.length).fill(null);
   }
 }
+// Funkcja znajdująca nazwę tagu po jego kodzie
+function findTagName(code) {
+  const tag = tags.find(t => t.code === code);
+  return tag ? tag.name : code;
+}
+
 // Funkcja wyświetlająca fiszkę
 function showCard(index) {
   const card = filteredFlashcards[index];
-  // Dodaj informację o powtórce
+  
+  // Znajdź nazwę dziedziny (pierwszy tag)
+  let domainHtml = '';
+  if (card.tags && card.tags.length > 0) {
+    const domainName = findTagName(card.tags[0]);
+    domainHtml = `<div class="domain_name">${domainName}</div>`;
+  }
+  
+  // Dodaj informację o powtórce i dziedzinie
   if (wrongMode) {
-    questionElement.innerHTML = `<span style='color:var(--color-0-very-light);font-weight:bold;'>[Powtórka]</span> ${card.id}. ${card.question}`;
+    questionElement.innerHTML = `${domainHtml}<span style='color:var(--color-0-very-light);font-weight:bold;'>[Powtórka]</span> ${card.id}. ${card.question}`;
   } else {
-    questionElement.innerHTML = `${card.id}. ${card.question}`;
+    questionElement.innerHTML = `${domainHtml}${card.id}. ${card.question}`;
   }
   answerElement.innerHTML = ""; // Ukryj odpowiedź
   explanationElement.innerHTML = ""; // Ukryj wyjaśnienie
 
   // Zarządzaj obrazkiem
   if (card.hasImage) {
-    imageElement.src = `./img/zadanie${card.id}.png`;
+    imageElement.src = `./img/${card.id}.png`;
     imageElement.style.display = "block";
   } else {
     imageElement.style.display = "none";
