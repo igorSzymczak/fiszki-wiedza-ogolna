@@ -87,7 +87,52 @@ function setupTagFormEvents() {
 
     // Update in-memory selectedTags but DO NOT persist or reshuffle automatically.
     // The user must press the "apply" button to save and draw a new batch.
+    // Also: propagate upward — if all descendants of an ancestor are checked,
+    // mark the ancestor checked; if any descendant is unchecked, ancestor is unchecked.
+    // This keeps parent state consistent when users manually toggle children.
+    // First, compute new checked state from checkboxes
     selectedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+
+    // Upward propagation: walk backwards from the changed position and update ancestors
+    try {
+      if (startIdx >= 0) {
+        for (let pos = startIdx - 1; pos >= 0; pos--) {
+          const parentCode = tagCodes[pos];
+          const parentIndex = tagIndexMap[parentCode] || 2;
+          // find end of this parent's descendant range
+          let parentEnd = tagCodes.length;
+          for (let k = pos + 1; k < tagCodes.length; k++) {
+            if ((tagIndexMap[tagCodes[k]] || 2) <= parentIndex) {
+              parentEnd = k;
+              break;
+            }
+          }
+          // check descendants (only those with index > parentIndex)
+          let anyDescendant = false;
+          let allChecked = true;
+          for (let k = pos + 1; k < parentEnd; k++) {
+            const childIndex = tagIndexMap[tagCodes[k]] || 2;
+            if (childIndex > parentIndex) {
+              anyDescendant = true;
+              const cb = checkboxes[k];
+              if (!cb || !cb.checked) { allChecked = false; break; }
+            }
+          }
+          // Only adjust parent if it actually has descendants
+          const parentCb = checkboxes[pos];
+          if (!parentCb) continue;
+          if (anyDescendant) {
+            parentCb.checked = allChecked;
+          }
+        }
+        // Refresh selectedTags after propagation
+        selectedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+      }
+    } catch (err) {
+      // if anything goes wrong in propagation, fall back to basic selection
+      selectedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    }
+
     // Hide any previous warning while the user is editing
     const warning = document.getElementById('tag-warning');
     if (warning) warning.style.display = 'none';

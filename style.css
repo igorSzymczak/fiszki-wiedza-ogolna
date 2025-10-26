@@ -20,6 +20,22 @@
 .tag-panel .tag-panel-controls > button:hover {
   background: var(--color-2-dark);
 }
+#tag-list {
+  overflow-y: auto;
+  max-height: calc(100vh - 110px);
+  padding-right: 8px;
+}
+#tag-list::-webkit-scrollbar {
+  width: 8px;
+}
+#tag-list::-webkit-scrollbar-track {
+  background: var(--color-2-very-dark);
+}
+#tag-list::-webkit-scrollbar-thumb {
+  background: var(--color-2);
+  border-radius: 4px;
+}
+
 * {
   margin:0;
   padding:0;
