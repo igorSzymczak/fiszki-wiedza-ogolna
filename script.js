@@ -34,12 +34,13 @@ function filterFlashcardsByTags() {
 // Generowanie formularza tagów
 function renderTagForm() {
   const tagList = document.getElementById('tag-list');
-  const dzialCodes = ["dz1", "dz2", "dz3", "dz4", "zagadnieniaSem1", "zagadnieniaSem2"];
   tagList.innerHTML = '';
   tags.forEach(tag => {
     const checked = selectedTags.includes(tag.code) ? 'checked' : '';
-    const dzialClass = dzialCodes.includes(tag.code) ? 'dzial' : '';
-    tagList.innerHTML += `<label class="${dzialClass}"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
+    const dzialClass = (tag.index && tag.index === 1) ? 'dzial' : '';
+    // Indent according to numeric index: higher index -> more right offset
+    const indent = ((tag.index && tag.index > 0) ? (tag.index - 1) : 0) * 16;
+    tagList.innerHTML += `<label class="${dzialClass}" style="margin-left:${indent}px"><input type="checkbox" value="${tag.code}" ${checked}>${tag.name}</label>`;
   });
 }
 
@@ -56,55 +57,40 @@ function setupTagFormEvents() {
     // Ensure the event target is a checkbox input
     const changed = e.target.closest && e.target.closest('input[type="checkbox"]') ? e.target.closest('input[type="checkbox"]') : (e.target.type === 'checkbox' ? e.target : null);
     if (!changed) return;
-
     const checkboxes = tagListNode.querySelectorAll('input[type="checkbox"]');
-    const dzialCodes = ["dz1", "dz2", "dz3", "dz4", "zagadnieniaSem1", "zagadnieniaSem2"];
     const tagCodes = tags.map(t => t.code);
+    // Map tag code -> numeric index (default to 2 when missing)
+    const tagIndexMap = Object.fromEntries(tags.map(t => [t.code, (typeof t.index === 'number') ? t.index : 2]));
 
-    // Sprawdź czy zmieniono dział (sekcje)
-    if (dzialCodes.includes(changed.value)) {
-      // Zaznaczenie działu: zaznacz wszystkie tagi poniżej aż do następnego działu
-      let startIdx = tagCodes.indexOf(changed.value);
+    // Cascade toggle: when toggling a tag of index K, toggle all following tags with index >= K
+    // until we meet a tag with index < K (that denotes an ancestor or sibling higher in the tree)
+    const startIdx = tagCodes.indexOf(changed.value);
+    if (startIdx >= 0) {
+      const changedIndex = tagIndexMap[changed.value] || 2;
       let endIdx = tagCodes.length;
       for (let i = startIdx + 1; i < tagCodes.length; i++) {
-        if (dzialCodes.includes(tagCodes[i])) {
+        // stop when we meet a tag at the same or higher level (index <= changedIndex)
+        if ((tagIndexMap[tagCodes[i]] || 2) <= changedIndex) {
           endIdx = i;
           break;
         }
       }
-      for (let i = startIdx; i < endIdx; i++) {
-        if (checkboxes[i]) checkboxes[i].checked = changed.checked;
-      }
-      // Odznaczenie działu: jeżeli odznaczenie spowoduje brak zaznaczonych tagów, zostaw pierwszy tag pod działem
-      if (!changed.checked) {
-        const checkedTagsAfter = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-        if (checkedTagsAfter.length === 0) {
-          if (startIdx + 1 < endIdx && checkboxes[startIdx + 1]) {
-            checkboxes[startIdx + 1].checked = true;
-          }
+      // Only affect deeper-level tags (index > changedIndex). Do not toggle siblings
+      // at the same level (index === changedIndex).
+      for (let i = startIdx + 1; i < endIdx; i++) {
+        if (!checkboxes[i]) continue;
+        if ((tagIndexMap[tagCodes[i]] || 2) > changedIndex) {
+          checkboxes[i].checked = changed.checked;
         }
       }
     }
 
-    // Aktualizuj selectedTags
-    const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    // Update in-memory selectedTags but DO NOT persist or reshuffle automatically.
+    // The user must press the "apply" button to save and draw a new batch.
+    selectedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    // Hide any previous warning while the user is editing
     const warning = document.getElementById('tag-warning');
-    if (checkedTags.length === 0) {
-      warning.style.display = 'block';
-      // Przywróć zaznaczenie poprzednich tagów
-      checkboxes.forEach(cb => {
-        if (selectedTags.includes(cb.value)) cb.checked = true;
-      });
-      return;
-    } else {
-      warning.style.display = 'none';
-    }
-    selectedTags = checkedTags;
-    saveSelectedTagsToCookies();
-    filterFlashcardsByTags();
-    resetFlashcardPool();
-    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
-    updateRemainingFlashcards();
+    if (warning) warning.style.display = 'none';
   });
 }
 
@@ -119,31 +105,85 @@ function setupTagPanelToggle() {
 
 // Handlers for select-all and select-sem2
 function setupTagPanelButtons() {
-  const selectAll = document.getElementById('select-all');
-  const selectSem2 = document.getElementById('select-sem2');
+  // Ensure a control container exists at the top of the tag panel
+  let controls = document.querySelector('.tag-panel .tag-panel-controls');
+  const panel = document.querySelector('.tag-panel');
+  if (!controls && panel) {
+    controls = document.createElement('div');
+    controls.className = 'tag-panel-controls';
+    panel.insertBefore(controls, panel.firstChild);
+  }
+  // Clear existing controls to avoid duplicates (we'll recreate canonical buttons)
+  if (controls) controls.innerHTML = '';
+
+  // Helper to create a button if missing
+  function ensureButton(id, text) {
+    let btn = document.getElementById(id);
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = id;
+      btn.type = 'button';
+      btn.textContent = text;
+      if (controls) controls.appendChild(btn);
+    } else {
+      // ensure it's not a submit button (avoid form submit reloads)
+      btn.type = 'button';
+    }
+    return btn;
+  }
+
+  const applyBtn = ensureButton('apply-tags', 'Zapisz i losuj');
+  const selectAll = ensureButton('select-all', 'Zaznacz wszystkie');
+  const deselectAll = ensureButton('deselect-all', 'Odznacz wszystkie');
+
+  // "Apply" button: validate, persist and draw new pool
+  applyBtn.addEventListener('click', () => {
+    const tagListNode = document.getElementById('tag-list');
+    const checkboxes = tagListNode.querySelectorAll('input[type="checkbox"]');
+    const checkedTags = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    const warning = document.getElementById('tag-warning');
+    if (checkedTags.length === 0) {
+      if (warning) warning.style.display = 'block';
+      // Revert visual selection to last saved tags from cookies
+      const saved = getCookie('selectedTags');
+      let savedTags = [];
+      if (saved) {
+        try { savedTags = JSON.parse(saved); } catch (e) { savedTags = []; }
+      } else {
+        savedTags = tags.map(t => t.code);
+      }
+      // Restore checkboxes
+      checkboxes.forEach(cb => cb.checked = savedTags.includes(cb.value));
+      selectedTags = savedTags;
+      return;
+    }
+    // Persist selection and reset pool
+    selectedTags = checkedTags;
+    saveSelectedTagsToCookies();
+    filterFlashcardsByTags();
+    resetFlashcardPool();
+    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
+    updateRemainingFlashcards();
+    if (warning) warning.style.display = 'none';
+  });
+
+  // Select all (only visual, does not persist until apply)
   selectAll.addEventListener('click', () => {
+    const tagListNode = document.getElementById('tag-list');
+    const checkboxes = tagListNode.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(cb => cb.checked = true);
     selectedTags = tags.map(t => t.code);
-    saveSelectedTagsToCookies();
-    renderTagForm();
-    setupTagFormEvents();
-    filterFlashcardsByTags();
-    resetFlashcardPool();
-    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
-    updateRemainingFlashcards();
   });
-  selectSem2.addEventListener('click', () => {
-    const sem2Code = 'zagadnieniaSem2';
-    const sem2Only = tags.filter(t => t.code === sem2Code).map(t => t.code);
-    // Ensure sem2-only plus at least one sem2 tag (itself)
-    selectedTags = sem2Only.length ? sem2Only : [sem2Code];
-    saveSelectedTagsToCookies();
-    renderTagForm();
-    setupTagFormEvents();
-    filterFlashcardsByTags();
-    resetFlashcardPool();
-    document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
-    updateRemainingFlashcards();
+
+  // Deselect all (visual only)
+  deselectAll.addEventListener('click', () => {
+    const tagListNode = document.getElementById('tag-list');
+    const checkboxes = tagListNode.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(cb => cb.checked = false);
+    selectedTags = [];
   });
+
+  // (removed Sem2 quick-select per user request)
 }
 
 // Reset puli fiszek po zmianie tagów
