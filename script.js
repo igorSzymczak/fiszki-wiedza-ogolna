@@ -205,6 +205,67 @@ function setupTagPanelButtons() {
   const selectAll = ensureButton('select-all', 'Zaznacz wszystkie');
   const deselectAll = ensureButton('deselect-all', 'Odznacz wszystkie');
 
+  // Create simple limit controls (checkbox + number input)
+  let limitWrapper = document.getElementById('limit-controls');
+  if (!limitWrapper) {
+    limitWrapper = document.createElement('div');
+    limitWrapper.id = 'limit-controls';
+    limitWrapper.style.display = 'flex';
+    limitWrapper.style.gap = '8px';
+    limitWrapper.style.alignItems = 'center';
+    // place after existing buttons
+    if (controls) controls.appendChild(limitWrapper);
+  }
+
+  // Build checkbox and number input
+  let limitCheckbox = document.getElementById('limit-enabled');
+  let limitNumber = document.getElementById('limit-count');
+  if (!limitCheckbox) {
+    limitCheckbox = document.createElement('input');
+    limitCheckbox.type = 'checkbox';
+    limitCheckbox.id = 'limit-enabled';
+    limitCheckbox.title = 'Włącz limit fiszek';
+  }
+  if (!limitNumber) {
+    limitNumber = document.createElement('input');
+    limitNumber.type = 'number';
+    limitNumber.id = 'limit-count';
+    limitNumber.min = '1';
+    limitNumber.value = '10';
+    limitNumber.style.width = '64px';
+    limitNumber.title = 'Maksymalna liczba fiszek';
+  }
+  // Label for checkbox
+  let limitLabel = document.getElementById('limit-label');
+  if (!limitLabel) {
+    limitLabel = document.createElement('label');
+    limitLabel.id = 'limit-label';
+    limitLabel.style.display = 'flex';
+    limitLabel.style.alignItems = 'center';
+    limitLabel.style.gap = '6px';
+    limitLabel.appendChild(limitCheckbox);
+    const span = document.createElement('span');
+    span.textContent = 'Limit fiszek';
+    limitLabel.appendChild(span);
+  }
+  // Clear wrapper and append canonical controls
+  limitWrapper.innerHTML = '';
+  limitWrapper.appendChild(limitLabel);
+  limitWrapper.appendChild(limitNumber);
+
+  // Initialize limit controls from cookies (if present)
+  try {
+    const limEnabled = getCookie('limitEnabled');
+    const limCount = getCookie('limitCount');
+    if (limEnabled === '1') limitCheckbox.checked = true; else limitCheckbox.checked = false;
+    if (limCount) {
+      const n = parseInt(limCount);
+      if (!isNaN(n) && n > 0) limitNumber.value = String(n);
+    }
+  } catch (e) {
+    // ignore
+  }
+
   // "Apply" button: validate, persist and draw new pool
   applyBtn.addEventListener('click', () => {
     const tagListNode = document.getElementById('tag-list');
@@ -226,10 +287,45 @@ function setupTagPanelButtons() {
       selectedTags = savedTags;
       return;
     }
-    // Persist selection and reset pool
+    // Persist selection
     selectedTags = checkedTags;
     saveSelectedTagsToCookies();
+
+    // Build the filtered list first
     filterFlashcardsByTags();
+
+    // Apply optional limit if enabled (read values from controls)
+    const limitEnabledEl = document.getElementById('limit-enabled');
+    const limitCountEl = document.getElementById('limit-count');
+    let limitEnabled = false;
+    let limitCount = null;
+    if (limitEnabledEl && limitEnabledEl.checked) {
+      limitEnabled = true;
+      const v = parseInt(limitCountEl && limitCountEl.value);
+      if (!isNaN(v) && v > 0) limitCount = v;
+    }
+
+    if (limitEnabled && limitCount !== null) {
+      // shuffle filteredFlashcards and slice to requested size
+      const arr = filteredFlashcards.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      filteredFlashcards = arr.slice(0, Math.min(limitCount, arr.length));
+      // Persist the exact limited pool (by id) so it can be restored after reload
+      try { setCookie('limitedPoolIds', JSON.stringify(filteredFlashcards.map(c => c.id))); } catch (e) { setCookie('limitedPoolIds', ''); }
+    }
+
+    // Persist limit preferences to cookie
+    setCookie('limitEnabled', limitEnabled ? '1' : '0');
+    setCookie('limitCount', limitCount !== null ? String(limitCount) : '');
+    if (!(limitEnabled && limitCount !== null)) {
+      // clear any previous limited pool when limit not active
+      setCookie('limitedPoolIds', '');
+    }
+
+    // Reset pool and update UI
     resetFlashcardPool();
     document.getElementById("question_amount").innerHTML = filteredFlashcards.length;
     updateRemainingFlashcards();
@@ -351,6 +447,8 @@ function getRandomCard() {
       } else {
         // Wszystko poprawnie, wróć do normalnej puli
         filterFlashcardsByTags();
+        // Re-apply limit if enabled so new pool respects user's limit
+        applyLimitToFilteredFlashcards();
         usedIndices = [];
         recentScores = Array(filteredFlashcards.length).fill(null);
         wrongMode = false;
@@ -364,6 +462,8 @@ function getRandomCard() {
       recentScores = Array(filteredFlashcards.length).fill(null);
       wrongMode = true;
       newPoolStarted = true;
+      // If a limit is enabled, ensure limited pool persisted
+      applyLimitToFilteredFlashcards();
     } else {
       // Reset do nowej puli (po powtórce błędów lub gdy nie ma błędów)
       usedIndices = [];
@@ -371,6 +471,8 @@ function getRandomCard() {
       wrongMode = false;
       newPoolStarted = true;
       filterFlashcardsByTags();
+      // Re-apply limit if enabled so new pool respects user's limit
+      applyLimitToFilteredFlashcards();
       recentScores = Array(filteredFlashcards.length).fill(null);
     }
   }
@@ -393,9 +495,40 @@ function updateRemainingFlashcards() {
 }
 // Funkcja zapisująca stan do cookies
 function saveStateToCookies() {
-  setCookie('usedIndices', JSON.stringify(usedIndices));
-  setCookie('currentCardIndex', currentCardIndex);
-  setCookie('recentScores', JSON.stringify(recentScores));
+  // If a limited pool is active and saved, persist progress by IDs instead of indices
+  const limitedSaved = getCookie('limitedPoolIds');
+  if (limitedSaved) {
+    try {
+      const limitedIds = JSON.parse(limitedSaved);
+      if (Array.isArray(limitedIds) && limitedIds.length > 0) {
+        // Save used items as IDs
+        const usedIds = usedIndices.map(i => (filteredFlashcards[i] && filteredFlashcards[i].id) ? filteredFlashcards[i].id : null).filter(Boolean);
+        setCookie('usedIds', JSON.stringify(usedIds));
+        // Save recent scores by id map
+        const scoresById = {};
+        for (let i = 0; i < recentScores.length; i++) {
+          const s = recentScores[i];
+          const card = filteredFlashcards[i];
+          if (card && s !== null && s !== undefined) scoresById[card.id] = s;
+        }
+        setCookie('recentScoresById', JSON.stringify(scoresById));
+        // Save current card id
+        const currentId = (currentCardIndex !== null && filteredFlashcards[currentCardIndex]) ? filteredFlashcards[currentCardIndex].id : '';
+        setCookie('currentCardId', currentId);
+      }
+    } catch (e) {
+      // fall back to clearing these keys
+      setCookie('usedIds', '');
+      setCookie('recentScoresById', '');
+      setCookie('currentCardId', '');
+    }
+  } else {
+    // Default behavior: save indices and array scores
+    setCookie('usedIndices', JSON.stringify(usedIndices));
+    setCookie('currentCardIndex', currentCardIndex);
+    setCookie('recentScores', JSON.stringify(recentScores));
+  }
+  // Common state
   setCookie('selectedTags', JSON.stringify(selectedTags));
   setCookie('wrongFlashcardIds', JSON.stringify(wrongFlashcardIds));
   setCookie('wrongMode', wrongMode ? '1' : '0');
@@ -410,6 +543,29 @@ function loadStateFromCookies() {
   const wrongModeCookie = getCookie('wrongMode');
   loadSelectedTagsFromCookies();
   filterFlashcardsByTags();
+  // If a limited pool was saved previously, restore that exact pool (by id)
+  const limitedSaved = getCookie('limitedPoolIds');
+  let limitedRestored = false;
+  if (limitedSaved) {
+    try {
+      const limitedIds = JSON.parse(limitedSaved);
+      if (Array.isArray(limitedIds) && limitedIds.length > 0) {
+        // rebuild pool in the same order as saved ids
+        const rebuilt = limitedIds.map(id => flashcards.find(c => c.id === id)).filter(Boolean);
+        if (rebuilt.length > 0) {
+          filteredFlashcards = rebuilt;
+          // Reset progress for the restored limited pool (we keep wrongFlashcardIds separate)
+          usedIndices = [];
+          recentScores = Array(filteredFlashcards.length).fill(null);
+          currentCardIndex = null;
+          wrongMode = false;
+          limitedRestored = true;
+        }
+      }
+    } catch (e) {
+      // ignore parse errors
+    }
+  }
   // Przywróć pulę powtórkową jeśli istnieje
   if (wrongIds) {
     try {
@@ -427,34 +583,95 @@ function loadStateFromCookies() {
   } else {
     wrongMode = false;
   }
-  if (used) {
-    try {
-      usedIndices = JSON.parse(used);
-    } catch (e) {
-      usedIndices = [];
-    }
-  }
-  if (idx) {
-    currentCardIndex = parseInt(idx);
-  }
-  if (scores) {
-    try {
-      const parsedScores = JSON.parse(scores);
-      recentScores = Array(filteredFlashcards.length).fill(null);
-      for (let i = 0; i < parsedScores.length && i < filteredFlashcards.length; i++) {
-        recentScores[i] = parsedScores[i];
+  // Restore progress from cookies
+  if (!limitedRestored) {
+    if (used) {
+      try {
+        usedIndices = JSON.parse(used);
+      } catch (e) {
+        usedIndices = [];
       }
-    } catch (e) {
+    }
+    if (idx) {
+      currentCardIndex = parseInt(idx);
+    }
+    if (scores) {
+      try {
+        const parsedScores = JSON.parse(scores);
+        recentScores = Array(filteredFlashcards.length).fill(null);
+        for (let i = 0; i < parsedScores.length && i < filteredFlashcards.length; i++) {
+          recentScores[i] = parsedScores[i];
+        }
+      } catch (e) {
+        recentScores = Array(filteredFlashcards.length).fill(null);
+      }
+    } else {
       recentScores = Array(filteredFlashcards.length).fill(null);
     }
   } else {
+    // We restored a limited pool. Try to restore progress saved by IDs.
+    const usedIdsCookie = getCookie('usedIds');
+    const recentScoresByIdCookie = getCookie('recentScoresById');
+    const currentCardIdCookie = getCookie('currentCardId');
+    // Map usedIds -> usedIndices (indices relative to filteredFlashcards)
+    if (usedIdsCookie) {
+      try {
+        const usedIds = JSON.parse(usedIdsCookie);
+        usedIndices = usedIds.map(id => filteredFlashcards.findIndex(c => c.id === id)).filter(i => i >= 0);
+      } catch (e) {
+        usedIndices = [];
+      }
+    } else {
+      usedIndices = [];
+    }
+    // Restore recentScores by id
     recentScores = Array(filteredFlashcards.length).fill(null);
+    if (recentScoresByIdCookie) {
+      try {
+        const map = JSON.parse(recentScoresByIdCookie);
+        Object.keys(map).forEach(id => {
+          const idxInPool = filteredFlashcards.findIndex(c => c.id === (isNaN(Number(id)) ? id : Number(id)));
+          if (idxInPool >= 0) recentScores[idxInPool] = map[id];
+        });
+      } catch (e) {
+        // ignore
+      }
+    }
+    // Restore currentCardIndex by id if possible
+    if (currentCardIdCookie) {
+      const curId = currentCardIdCookie;
+      const found = filteredFlashcards.findIndex(c => c.id === (isNaN(Number(curId)) ? curId : Number(curId)));
+      currentCardIndex = found >= 0 ? found : null;
+    } else {
+      currentCardIndex = null;
+    }
   }
 }
 // Funkcja znajdująca nazwę tagu po jego kodzie
 function findTagName(code) {
   const tag = tags.find(t => t.code === code);
   return tag ? tag.name : code;
+}
+
+// Helper: if a limit is enabled, apply it to current filteredFlashcards (shuffle+slice)
+function applyLimitToFilteredFlashcards() {
+  const limEnabled = getCookie('limitEnabled');
+  const limCount = getCookie('limitCount');
+  if (limEnabled === '1' && limCount) {
+    const n = parseInt(limCount);
+    if (!isNaN(n) && n > 0) {
+      const arr = filteredFlashcards.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      filteredFlashcards = arr.slice(0, Math.min(n, arr.length));
+      try { setCookie('limitedPoolIds', JSON.stringify(filteredFlashcards.map(c => c.id))); } catch (e) { setCookie('limitedPoolIds', ''); }
+      return;
+    }
+  }
+  // if not enabled, clear limited pool cookie
+  setCookie('limitedPoolIds', '');
 }
 
 // Funkcja wyświetlająca fiszkę
@@ -488,8 +705,11 @@ function showCard(index) {
   // Zmień tekst i klasy przycisków
   badButton.textContent = "Odkryj fiszkę";
   goodButton.textContent = "Odkryj fiszkę";
-  badButton.className = "grey";
-  goodButton.className = "grey";
+  // don't clobber other classes (like 'flash') — use classList
+  badButton.classList.remove('bad', 'good');
+  badButton.classList.add('grey');
+  goodButton.classList.remove('bad', 'good');
+  goodButton.classList.add('grey');
 
   updateRemainingFlashcards();
 }
@@ -505,37 +725,102 @@ function revealCard() {
   // Przywróć klasy przycisków
   badButton.textContent = "Źle :(";
   goodButton.textContent = "Dobrze :)";
-  badButton.className = "bad";
-  goodButton.className = "good";
+  // switch classes without removing transient ones like 'flash'
+  badButton.classList.remove('grey', 'good');
+  badButton.classList.add('bad');
+  goodButton.classList.remove('grey', 'bad');
+  goodButton.classList.add('good');
   updateRemainingFlashcards();
 }
 
 // Obsługa przycisków
 badButton.addEventListener("click", () => {
   if (badButton.classList.contains("grey")) {
-    revealCard();
+    // flash then reveal
+    flashButtons([badButton]).then(() => revealCard());
   } else {
-    updateScore(false); // Użytkownik odpowiedział źle
-    currentCardIndex = getRandomCard();
-    saveStateToCookies();
-    showCard(currentCardIndex);
-    answerContainer.style.opacity = 0;
-    explanationContainer.style.opacity = 0;
+    // flash then mark wrong and advance
+    flashButtons([badButton]).then(() => {
+      updateScore(false); // Użytkownik odpowiedział źle
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
   }
 });
 
 goodButton.addEventListener("click", () => {
   if (goodButton.classList.contains("grey")) {
-    revealCard();
+    flashButtons([goodButton]).then(() => revealCard());
   } else {
-    updateScore(true); // Użytkownik odpowiedział dobrze
-    currentCardIndex = getRandomCard();
-    saveStateToCookies();
-    showCard(currentCardIndex);
-    answerContainer.style.opacity = 0;
-    explanationContainer.style.opacity = 0;
+    flashButtons([goodButton]).then(() => {
+      updateScore(true); // Użytkownik odpowiedział dobrze
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
   }
 });
+
+// Obsługa klawiatury: strzałki lewo/prawo
+// - jeśli fiszka jest zakryta (przyciski mają klasę 'grey') -> odkryj
+// - jeśli fiszka jest odkryta -> lewo = źle, prawo = dobrze (tak jak przyciski)
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  // Ignore typing in inputs/textareas/contenteditable
+  const active = document.activeElement;
+  if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) return;
+
+  // Prevent page scrolling when using arrows for navigation
+  e.preventDefault();
+
+  const isCovered = badButton.classList.contains('grey') || goodButton.classList.contains('grey');
+  if (isCovered) {
+    // Any arrow when covered should reveal. Flash both buttons visually first.
+    flashButtons([badButton, goodButton]).then(() => revealCard());
+    return;
+  }
+
+  // Card already revealed: left = wrong, right = good
+  if (e.key === 'ArrowLeft') {
+    // Flash bad button, then perform action
+    flashButtons([badButton]).then(() => {
+      updateScore(false);
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
+  } else if (e.key === 'ArrowRight') {
+    // Flash good button, then perform action
+    flashButtons([goodButton]).then(() => {
+      updateScore(true);
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
+  }
+});
+
+// Helper to flash one or more buttons by toggling the 'flash' class briefly
+function flashButtons(buttons, duration = 420) {
+  return new Promise(resolve => {
+    buttons.forEach(btn => {
+      try { btn.classList.add('flash'); } catch (e) {}
+    });
+    setTimeout(() => {
+      buttons.forEach(btn => { try { btn.classList.remove('flash'); } catch (e) {} });
+      resolve();
+    }, duration + 30);
+  });
+}
 
 // Obsługa resetowania stanu
 resetButton.addEventListener("click", () => {

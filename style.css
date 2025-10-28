@@ -10,8 +10,10 @@
 
 .tag-panel .tag-panel-controls {
   display:flex;
+  flex-wrap: wrap;
   gap:8px;
   margin-bottom:8px;
+  justify-content: center;
 }
 .tag-panel .tag-panel-controls > button {
   background: var(--color-2);
@@ -20,10 +22,26 @@
   padding: 6px 10px;
   border-radius: 8px;
   cursor: pointer;
+  width: calc(33% - 8px)
 }
 .tag-panel .tag-panel-controls > button:hover {
   background: var(--color-2-dark);
 }
+.tag-panel .tag-panel-controls > #limit-controls {
+  width:100%;
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  text-align: center;
+}
+
+.tag-panel .tag-panel-controls > #limit-controls > label {
+  margin-bottom: 0;
+}
+
+
+
 #tag-list {
   overflow-y: auto;
   max-height: calc(100vh - 150px);
@@ -265,6 +283,32 @@ img[src="./img/loading.gif"] {
 .buttons_container > button:active {
   transform: scale(0.95);
   transition: all 0s, box-shadow 0.05s;
+}
+
+/* Flash animation used for both mouse (via :active) and programmatic keyboard flash */
+@keyframes buttonFlash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+    transform: scale(1);
+  }
+  20% {
+    box-shadow: 0 0 28px 8px currentcolor;
+    transform: scale(0.98);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+    transform: scale(1);
+  }
+}
+
+/* Apply flash when button gets the 'flash' class (added by JS) */
+.buttons_container > button.flash {
+  animation: buttonFlash 420ms ease-in-out;
+}
+
+/* Also play the flash animation on active (mouse press) for immediate feedback */
+.buttons_container > button:active {
+  animation: buttonFlash 420ms ease-in-out;
 }
 
 button.good {
