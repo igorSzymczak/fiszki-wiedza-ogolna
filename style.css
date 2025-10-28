@@ -10,8 +10,10 @@
 
 .tag-panel .tag-panel-controls {
   display:flex;
+  flex-wrap: wrap;
   gap:8px;
   margin-bottom:8px;
+  justify-content: center;
 }
 .tag-panel .tag-panel-controls > button {
   background: var(--color-2);
@@ -20,10 +22,26 @@
   padding: 6px 10px;
   border-radius: 8px;
   cursor: pointer;
+  width: calc(33% - 8px)
 }
 .tag-panel .tag-panel-controls > button:hover {
   background: var(--color-2-dark);
 }
+.tag-panel .tag-panel-controls > #limit-controls {
+  width:100%;
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  text-align: center;
+}
+
+.tag-panel .tag-panel-controls > #limit-controls > label {
+  margin-bottom: 0;
+}
+
+
+
 #tag-list {
   overflow-y: auto;
   max-height: calc(100vh - 150px);
