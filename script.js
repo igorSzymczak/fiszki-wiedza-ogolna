@@ -705,8 +705,11 @@ function showCard(index) {
   // Zmień tekst i klasy przycisków
   badButton.textContent = "Odkryj fiszkę";
   goodButton.textContent = "Odkryj fiszkę";
-  badButton.className = "grey";
-  goodButton.className = "grey";
+  // don't clobber other classes (like 'flash') — use classList
+  badButton.classList.remove('bad', 'good');
+  badButton.classList.add('grey');
+  goodButton.classList.remove('bad', 'good');
+  goodButton.classList.add('grey');
 
   updateRemainingFlashcards();
 }
@@ -722,37 +725,102 @@ function revealCard() {
   // Przywróć klasy przycisków
   badButton.textContent = "Źle :(";
   goodButton.textContent = "Dobrze :)";
-  badButton.className = "bad";
-  goodButton.className = "good";
+  // switch classes without removing transient ones like 'flash'
+  badButton.classList.remove('grey', 'good');
+  badButton.classList.add('bad');
+  goodButton.classList.remove('grey', 'bad');
+  goodButton.classList.add('good');
   updateRemainingFlashcards();
 }
 
 // Obsługa przycisków
 badButton.addEventListener("click", () => {
   if (badButton.classList.contains("grey")) {
-    revealCard();
+    // flash then reveal
+    flashButtons([badButton]).then(() => revealCard());
   } else {
-    updateScore(false); // Użytkownik odpowiedział źle
-    currentCardIndex = getRandomCard();
-    saveStateToCookies();
-    showCard(currentCardIndex);
-    answerContainer.style.opacity = 0;
-    explanationContainer.style.opacity = 0;
+    // flash then mark wrong and advance
+    flashButtons([badButton]).then(() => {
+      updateScore(false); // Użytkownik odpowiedział źle
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
   }
 });
 
 goodButton.addEventListener("click", () => {
   if (goodButton.classList.contains("grey")) {
-    revealCard();
+    flashButtons([goodButton]).then(() => revealCard());
   } else {
-    updateScore(true); // Użytkownik odpowiedział dobrze
-    currentCardIndex = getRandomCard();
-    saveStateToCookies();
-    showCard(currentCardIndex);
-    answerContainer.style.opacity = 0;
-    explanationContainer.style.opacity = 0;
+    flashButtons([goodButton]).then(() => {
+      updateScore(true); // Użytkownik odpowiedział dobrze
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
   }
 });
+
+// Obsługa klawiatury: strzałki lewo/prawo
+// - jeśli fiszka jest zakryta (przyciski mają klasę 'grey') -> odkryj
+// - jeśli fiszka jest odkryta -> lewo = źle, prawo = dobrze (tak jak przyciski)
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  // Ignore typing in inputs/textareas/contenteditable
+  const active = document.activeElement;
+  if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) return;
+
+  // Prevent page scrolling when using arrows for navigation
+  e.preventDefault();
+
+  const isCovered = badButton.classList.contains('grey') || goodButton.classList.contains('grey');
+  if (isCovered) {
+    // Any arrow when covered should reveal. Flash both buttons visually first.
+    flashButtons([badButton, goodButton]).then(() => revealCard());
+    return;
+  }
+
+  // Card already revealed: left = wrong, right = good
+  if (e.key === 'ArrowLeft') {
+    // Flash bad button, then perform action
+    flashButtons([badButton]).then(() => {
+      updateScore(false);
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
+  } else if (e.key === 'ArrowRight') {
+    // Flash good button, then perform action
+    flashButtons([goodButton]).then(() => {
+      updateScore(true);
+      currentCardIndex = getRandomCard();
+      saveStateToCookies();
+      showCard(currentCardIndex);
+      answerContainer.style.opacity = 0;
+      explanationContainer.style.opacity = 0;
+    });
+  }
+});
+
+// Helper to flash one or more buttons by toggling the 'flash' class briefly
+function flashButtons(buttons, duration = 420) {
+  return new Promise(resolve => {
+    buttons.forEach(btn => {
+      try { btn.classList.add('flash'); } catch (e) {}
+    });
+    setTimeout(() => {
+      buttons.forEach(btn => { try { btn.classList.remove('flash'); } catch (e) {} });
+      resolve();
+    }, duration + 30);
+  });
+}
 
 // Obsługa resetowania stanu
 resetButton.addEventListener("click", () => {
